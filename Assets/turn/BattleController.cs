@@ -18,12 +18,12 @@ public class BattleController : MonoBehaviour
     //이번턴에 제출된 스킬의 연산값
     List<List<double>> BSkillQueue = new List<List<double>>();
 
-    //임시UI랑 연결용
+    //임시UI랑 연결용!!병합 후 삭제!!
     public TextTempUI ui;
 
     public void Awake()
     {
-        //임시 ui담당이랑 연결
+        //임시 ui담당이랑 연결!!병합 후 삭제!!
         ui = GetComponent<TextTempUI>();
     }
 
@@ -35,6 +35,7 @@ public class BattleController : MonoBehaviour
         //메인 턴 루틴 시작
         StartCoroutine(turnMainRoutine());
     }
+    //IEnumerator를 호출 못하는 애들도 호출할 수 있도록 위랑 아래랑 분리, 입력 대기 구현위해 IEnumerator를 사용
     private IEnumerator turnMainRoutine()
     {
 
@@ -50,7 +51,7 @@ public class BattleController : MonoBehaviour
             //1단계, 몬스터에게 스킬 정보 가져옴
             fSubmitSkillFromMonster();
 
-            //2단계, 플레이어에게 사용할 스킬/방해할 스킬 입력받음(임시용)------
+            //2단계, 플레이어에게 사용할 스킬/방해할 스킬 입력받음(임시용)------!!병합 후 삭제!!
             //일단 UI담당 스크립트에게 정보를 넘김, 여기 있는건 임시용임
             ui.DisplayToPlayer(BMonsters, BSkillQueue);
 
@@ -183,7 +184,7 @@ public class BattleController : MonoBehaviour
         BSkillQueue.Sort((x, y) => y[Skill.PRIORITY].CompareTo(x[Skill.PRIORITY])) ;
     }
 
-    //!!임시!! 플레이어의 입력을 받아와 계산
+    //!!임시!! 플레이어의 입력을 받아와 계산, !!병합 후 삭제!!
     private void tmpInputProcess()
     {
         //입력 받아옴

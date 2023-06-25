@@ -1,5 +1,7 @@
 using UnityEngine;
-
+/// <summary>
+/// !!병합 후 삭제!!
+/// </summary>
 public class tmpCameraController : MonoBehaviour
 {
     public float moveSpeed = 40f;

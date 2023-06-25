@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+//!!병합 후 삭제!!
 public class TextTempUI : MonoBehaviour
 {
     [SerializeField]

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+//!!병합 후 삭제!!
 public class TextMeshProExample : MonoBehaviour
 {
     [SerializeField]
