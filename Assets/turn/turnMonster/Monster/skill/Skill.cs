@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//temporary card, contains card's information
-//임시, 카드대용으로 쓸 카드의 공통적인 정보 담고 있음.  
+//identifing for all skill's common part 
+//모든 스킬의 공통부분 정의
 abstract public class Skill : MonoBehaviour
 {
     public const int TYPE = 0;
