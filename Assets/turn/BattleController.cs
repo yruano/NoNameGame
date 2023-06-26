@@ -13,7 +13,7 @@ public class BattleController : MonoBehaviour
     [SerializeField]
     //전투 턴
     int Bturn = 0;
-    //참여하는 몬스터들, 0~양수를 키로 가짐
+    //참여하는 몬스터들, 자연수를 키로 가짐
     public Dictionary<int, TurnMonster> BMonsters = new Dictionary<int, TurnMonster>();
     //이번턴에 제출된 스킬의 연산값
     List<List<double>> BSkillQueue = new List<List<double>>();

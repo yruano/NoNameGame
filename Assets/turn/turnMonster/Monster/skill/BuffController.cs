@@ -133,7 +133,7 @@ public class BuffController : MonoBehaviour
         FAddDot(new List<double> { id, damage, time});
     }
 
-    ////버프연산 수정사항
+    ////버프연산 수정사항이 생기면 여기다 쓰자
     //public void FFixBuff()
     //{
 

@@ -1,6 +1,6 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 /// <summary>
-/// !!º´ÇÕ ÈÄ »èÁ¦!!
+/// !!ë³‘í•© í›„ ì‚­ì œ!!
 /// </summary>
 public class tmpCameraController : MonoBehaviour
 {
