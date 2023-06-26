@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 //어떤 버프가 걸려있는지, 어떤 계산이 되어있는지, 끝나기까지 몇턴이 남았는지 기록.
 //버프는 항상 (기본값 + 덧셈값) * 곱셈값으로 계산됨,

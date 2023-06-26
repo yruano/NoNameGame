@@ -1,8 +1,6 @@
 //on turn system, in battle, contain basic monter infor 
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 //턴제 시스템에서 전투중 사용할 몬스터의 기본정보들
 
 public class TurnMonster : MonoBehaviour
