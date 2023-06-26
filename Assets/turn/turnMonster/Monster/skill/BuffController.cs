@@ -36,9 +36,7 @@ public class BuffController : MonoBehaviour
         ProcessedStat = new List<double>(target.MOriginStat);
         //적용 전 값을 초기화
         for (int i = 0; i < ProcessedStat.Count; i++)
-        {
             AttatchedRawValue.Add(new List<double> { 0.0, 1.0 });
-        }
     }
 
    //걸린 버프수 반환
@@ -100,13 +98,16 @@ public class BuffController : MonoBehaviour
             //지속시간만 갱신
             if(BuffInfor[(int)newBuff[BuffId]][BuffLeft] < newBuff[BuffLeft])
                 BuffInfor[(int)newBuff[BuffId]][BuffLeft] = newBuff[BuffLeft];
+
             return;
         }
         //무슨 버프인지 목록에 추가
         BuffInfor.Add((int)newBuff[BuffId], newBuff.GetRange(0, newBuff.Count-1));
+
         //버프 적용전 값을 갱신
         AttatchedRawValue[(int)newBuff[BuffTarget]][BuffAdd] += newBuff[BuffAdd];
         AttatchedRawValue[(int)newBuff[BuffTarget]][BuffMulty] *= newBuff[BuffMulty];
+
         //버프 적용 후 값 갱신
         ProcessedStat[ (int)newBuff[BuffTarget] ] += (target.MOriginStat[BuffTarget] + AttatchedRawValue[(int)newBuff[BuffTarget]][0]) * AttatchedRawValue[(int)newBuff[BuffTarget]][0];
     }

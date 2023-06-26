@@ -14,7 +14,7 @@ public class TurnMonster : MonoBehaviour
     public const int DAMAGE = 2;
     public const int ARMOR = 3;
     public const int SPEED = 4;
-    /*//개별 변수방식
+    /*//개별 변수방식, 방식 교체할까 고민했던 흔적임.
     public double MMaxHp = 100.0; 
     public double MNowHp = 100.0;
     public double MDamage = 1.0;

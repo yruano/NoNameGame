@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-
 public class SkillAttackMultiHit : SkillAttack
 {
     public const int HITCOUNT = 4;

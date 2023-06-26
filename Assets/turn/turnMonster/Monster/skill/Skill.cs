@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-//identifing for all skill's common part 
 //모든 스킬의 공통부분 정의
 abstract public class Skill : MonoBehaviour
 {
