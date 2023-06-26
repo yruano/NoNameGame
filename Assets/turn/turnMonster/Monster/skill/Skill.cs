@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //identifing for all skill's common part 
-//¸ğµç ½ºÅ³ÀÇ °øÅëºÎºĞ Á¤ÀÇ
+//ëª¨ë“  ìŠ¤í‚¬ì˜ ê³µí†µë¶€ë¶„ ì •ì˜
 abstract public class Skill : MonoBehaviour
 {
     public const int TYPE = 0;

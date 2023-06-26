@@ -7,7 +7,7 @@ public class SkillStrongAttack : SkillAttack
     public override void Awake()
     {
         base.Awake();
-        //1¹øÂ°/ ´Ù´ÜÈ÷Æ® ¾Æ´Ñ/ °ø°Ý
+        //1ë²ˆì§¸/ ë‹¤ë‹¨ížˆíŠ¸ ì•„ë‹Œ/ ê³µê²©
         Id = 101;
         SADamage = 25;
     }

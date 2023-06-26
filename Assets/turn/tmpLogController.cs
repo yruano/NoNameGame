@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//!!º´ÇÕ ÈÄ »èÁ¦!!
+//!!ë³‘í•© í›„ ì‚­ì œ!!
 public class tmpLogController : MonoBehaviour
 {
     public float moveSpeed = 40f;
