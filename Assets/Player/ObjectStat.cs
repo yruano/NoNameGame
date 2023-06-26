@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 플레이어 스크립트 오브젝트 (추가적인 스탯들 정리해야함)
 [CreateAssetMenu(fileName = "New Object", menuName = "Object/Create New Object")]
 public class ObjectStat : ScriptableObject
 {
