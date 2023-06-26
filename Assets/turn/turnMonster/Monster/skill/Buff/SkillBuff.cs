@@ -11,29 +11,29 @@ public class SkillBuff : Skill
     public const int TARGETSTAT = 5;
     public const int DURATION = 6;
 
-    //µ¡¼À ¿¬»ê°ª
+    //ë§ì…ˆ ì—°ì‚°ê°’
     public int SBuffAdd = 0;
-    //°ö¼À ¿¬»ê°ª
+    //ê³±ì…ˆ ì—°ì‚°ê°’
     public int SBuffMulty = 1;
-    //¸ñÇ¥ ½ºÅÈ
+    //ëª©í‘œ ìŠ¤íƒ¯
     public int SBuffTargetStat = 0;
-    //Áö¼Ó½Ã°£
+    //ì§€ì†ì‹œê°„
     public int SBuffLeft = 0;
 
     public virtual void Awake()
     {
-        //¹öÇÁÈ¿°ú
+        //ë²„í”„íš¨ê³¼
         Type = 2;
     }
 
-    //¿¬»ê½Ã ÇÊ¿äÇÑ °ª ¹İÈ¯
+    //ì—°ì‚°ì‹œ í•„ìš”í•œ ê°’ ë°˜í™˜
     override public List<double> SFunction()
     {
-        //±âº» ¸®½ºÆ®¸¦ °¡Á®¿À°í
+        //ê¸°ë³¸ ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜¤ê³ 
         List<double> tmp = base.SFunction();
-        //Ãß°¡ÇÒ ¸®½ºÆ®¸¦ µ¡ºÙÀÎ µÚ
+        //ì¶”ê°€í•  ë¦¬ìŠ¤íŠ¸ë¥¼ ë§ë¶™ì¸ ë’¤
         tmp.AddRange(new List<double> { SBuffAdd, SBuffMulty, SBuffTargetStat, SBuffLeft });
-        //È£ÃâÇÑ°÷¿¡ ¹İÈ¯
+        //í˜¸ì¶œí•œê³³ì— ë°˜í™˜
         return tmp;
     }
 }

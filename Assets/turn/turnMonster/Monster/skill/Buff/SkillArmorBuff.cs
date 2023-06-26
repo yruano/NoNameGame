@@ -7,13 +7,13 @@ public class SkillArmorBuff : SkillBuff
     public override void Awake()
     {
         base.Awake();
-        //1¹øÂ° ¹öÇÁ(2)
+        //1ë²ˆì§¸ ë²„í”„(2)
         Id = 12;
-        //¸ñÇ¥: ¹æ¾î·Â
+        //ëª©í‘œ: ë°©ì–´ë ¥
         SBuffTargetStat = TurnMonster.ARMOR;
-        //(+ 4)¸¸Å­ Áõ°¡
+        //(+ 4)ë§Œí¼ ì¦ê°€
         SBuffAdd = 4;
-        //Áö¼Ó½Ã°£ = 4ÅÏ
+        //ì§€ì†ì‹œê°„ = 4í„´
         SBuffLeft = 4;
     }
 }

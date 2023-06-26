@@ -7,9 +7,9 @@ public class SkillHealLittle : SkillHeal
     new private void Awake()
     {
         base.Awake();
-        //1¹øÂ° Èú(4)È¿°ú ½ºÅ³
+        //1ë²ˆì§¸ í(4)íš¨ê³¼ ìŠ¤í‚¬
         Id = 14;
-        //Ä¡·á¾çÀº 10
+        //ì¹˜ë£Œì–‘ì€ 10
         SHAmount = 10;
     }
 }
