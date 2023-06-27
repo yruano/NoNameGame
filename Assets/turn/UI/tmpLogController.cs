@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 //!!병합 후 삭제!!
 public class tmpLogController : MonoBehaviour

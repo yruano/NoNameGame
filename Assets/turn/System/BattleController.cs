@@ -1,12 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting.Antlr3.Runtime;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
-using UnityEngine.UI;
 //전투컨트롤러,
 public class BattleController : MonoBehaviour
 {
