@@ -9,11 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 701a8c65dc6f91b448c64cbafe7ec4d4, type: 3}
-  m_Name: Rad
+  m_Script: {fileID: 11500000, guid: 513a183c5683f6d42914925493a42da3, type: 3}
+  m_Name: Player
   m_EditorClassIdentifier: 
-  Id: 1
-  ItemName: rad
-  ItemType: Itme
-  Value: 0
-  Icon: {fileID: 21300000, guid: a3ced8f7044b9de4787602a9e9b20ea7, type: 3}
+  Hp: 0
+  Damage: 0
+  Defense: 0
+  Critical: 0
+  CriticalDamage: 0
+  Evasion: 0
+  Speed: 0
+  Crossroads: 0
+  HpRegen: 0
+  ManaRegen: 0
+  Vampirism: 0
+  Money: 0
