@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 1
   ItemName: rad
-  ItemType: Itme
+  ItemType: Item
   Value: 0
   Icon: {fileID: 21300000, guid: a3ced8f7044b9de4787602a9e9b20ea7, type: 3}

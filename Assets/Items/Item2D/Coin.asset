@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id: 2
   ItemName: Coin
-  ItemType: Coin
+  ItemType: Item
   Value: 10
   Icon: {fileID: 0}
