@@ -28,6 +28,7 @@ public class Order : MonoBehaviour
   public void SetOrder(int order)
   {
     int mulOder = order * 10;
+    
     foreach (var renderer in backRenderers)
     {
       renderer.sortingLayerName = sortingLayerName;

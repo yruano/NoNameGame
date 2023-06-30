@@ -79,6 +79,7 @@ public class CardManager : MonoBehaviour
   {
     var cardObject = Instantiate(CardPrefab, cardSpawnPoint.position, Utils.QI);
     var card = cardObject.GetComponent<Card>();
+
     card.Setup(PopCardItem());
     myCards.Add(card);
 
@@ -89,6 +90,7 @@ public class CardManager : MonoBehaviour
   void setOriginOrder(bool isMine)
   {
     int count = isMine ? myCards.Count : 0;
+
     for (int i = 0; i < count; i++)
     {
       var targetCard = myCards[i];
@@ -102,6 +104,7 @@ public class CardManager : MonoBehaviour
     originCardPRSs = RoundAlignment(PlayerCardLeft, PlayerCardRight, myCards.Count, 0.5f, Vector3.one * 1.5f);
 
     var targetCards = isMine ? myCards : null;
+    
     for (int i = 0; i < targetCards.Count; i++)
     {
       var targetCard = targetCards[i];

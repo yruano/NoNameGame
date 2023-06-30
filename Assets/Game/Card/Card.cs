@@ -18,6 +18,7 @@ public class Card : MonoBehaviour
   public void Setup(CardItem carditem)
   {
     this.carditem = carditem;
+    
     character.sprite = this.carditem.sprite;
     nameTMP.text = this.carditem.name;
     attackTMP.text = this.carditem.attack.ToString();
