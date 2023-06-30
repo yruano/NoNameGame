@@ -1,24 +1,24 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-//!!º´ÇÕ ÈÄ »èÁ¦!!
+//!!ë³‘í•© í›„ ì‚­ì œ!!
 public class TextMeshProExample : MonoBehaviour
 {
     [SerializeField]
-    public TMP_Text textMeshPro;  // TextMeshPro °´Ã¼
+    public TMP_Text textMeshPro;  // TextMeshPro ê°ì²´
     public InputField input;
 
     public void Awake()
     {
         textMeshPro = GetComponent<TMP_Text>();
-        //inputField ¿¬°á
+        //inputField ì—°ê²°
         input = GameObject.Find("InputField").GetComponent<InputField>();
-        //ÀÌº¥Æ® ¸®½º³Ê µî·Ï
+        //ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ë“±ë¡
         input.onEndEdit.AddListener(OnEndEdit);
     }
     public void OnEndEdit(string value)
     {
-        // TextMeshPro °´Ã¼ÀÇ ÅØ½ºÆ®¸¦ º¯°æÇÕ
+        // TextMeshPro ê°ì²´ì˜ í…ìŠ¤íŠ¸ë¥¼ ë³€ê²½í•©
         textMeshPro.text = value;
     }
 }

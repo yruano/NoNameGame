@@ -1,204 +1,199 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting.Antlr3.Runtime;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
-using UnityEngine.UI;
-//ÀüÅõÄÁÆ®·Ñ·¯,
+//ì „íˆ¬ì»¨íŠ¸ë¡¤ëŸ¬,
 public class BattleController : MonoBehaviour
 {
     [SerializeField]
-    //ÀüÅõ ÅÏ
+    //ì „íˆ¬ í„´
     int Bturn = 0;
-    //Âü¿©ÇÏ´Â ¸ó½ºÅÍµé, 0~¾ç¼ö¸¦ Å°·Î °¡Áü
+    //ì°¸ì—¬í•˜ëŠ” ëª¬ìŠ¤í„°ë“¤, ìì—°ìˆ˜ë¥¼ í‚¤ë¡œ ê°€ì§
     public Dictionary<int, TurnMonster> BMonsters = new Dictionary<int, TurnMonster>();
-    //ÀÌ¹øÅÏ¿¡ Á¦ÃâµÈ ½ºÅ³ÀÇ ¿¬»ê°ª
+    //ì´ë²ˆí„´ì— ì œì¶œëœ ìŠ¤í‚¬ì˜ ì—°ì‚°ê°’
     List<List<double>> BSkillQueue = new List<List<double>>();
 
-    //ÀÓ½ÃUI¶û ¿¬°á¿ë!!º´ÇÕ ÈÄ »èÁ¦!!
+    //ì„ì‹œUIë‘ ì—°ê²°ìš©!!ë³‘í•© í›„ ì‚­ì œ!!
     public TextTempUI ui;
 
     public void Awake()
     {
-        //ÀÓ½Ã ui´ã´çÀÌ¶û ¿¬°á!!º´ÇÕ ÈÄ »èÁ¦!!
+        //ì„ì‹œ uië‹´ë‹¹ì´ë‘ ì—°ê²°!!ë³‘í•© í›„ ì‚­ì œ!!
         ui = GetComponent<TextTempUI>();
     }
 
-    //¹ŞÀ» Á¤º¸ ´Ù ¹Ş°í ÅÏ ½ÃÀÛÇÒ¶§ È£Ãâ 
+    //ë°›ì„ ì •ë³´ ë‹¤ ë°›ê³  í„´ ì‹œì‘í• ë•Œ í˜¸ì¶œ 
     public void turnStart()
     {
-        //ÀüÅõ ÅÏ ÃÊ±âÈ­
+        //ì „íˆ¬ í„´ ì´ˆê¸°í™”
         Bturn = 0;
-        //¸ŞÀÎ ÅÏ ·çÆ¾ ½ÃÀÛ
+        //ë©”ì¸ í„´ ë£¨í‹´ ì‹œì‘
         StartCoroutine(turnMainRoutine());
     }
-    //IEnumerator¸¦ È£Ãâ ¸øÇÏ´Â ¾Öµéµµ È£ÃâÇÒ ¼ö ÀÖµµ·Ï À§¶û ¾Æ·¡¶û ºĞ¸®, ÀÔ·Â ´ë±â ±¸ÇöÀ§ÇØ IEnumerator¸¦ »ç¿ë
+    //IEnumeratorë¥¼ í˜¸ì¶œ ëª»í•˜ëŠ” ì• ë“¤ë„ í˜¸ì¶œí•  ìˆ˜ ìˆë„ë¡ ìœ„ë‘ ì•„ë˜ë‘ ë¶„ë¦¬, ì…ë ¥ ëŒ€ê¸° êµ¬í˜„ìœ„í•´ IEnumeratorë¥¼ ì‚¬ìš©
     private IEnumerator turnMainRoutine()
     {
 
-        //¸ó½ºÅÍ ÀüºÎ »ç¸Á½Ã ÀüÅõ Á¾·á
+        //ëª¬ìŠ¤í„° ì „ë¶€ ì‚¬ë§ì‹œ ì „íˆ¬ ì¢…ë£Œ
         while (BMonsters.Count > 0)
         {
-            //0´Ü°è, ½ºÅ³ ¸®½ºÆ® ºñ¿ì°í ÅÏ ³Ñ±â¸ç È£ÃâÇÒ°Å È£ÃâÇÔ
+            //0ë‹¨ê³„, ìŠ¤í‚¬ ë¦¬ìŠ¤íŠ¸ ë¹„ìš°ê³  í„´ ë„˜ê¸°ë©° í˜¸ì¶œí• ê±° í˜¸ì¶œí•¨
             BSkillQueue.Clear();
             Bturn++;
             foreach (var oneMonster in BMonsters)
                 oneMonster.Value.MNextTurn();
 
-            //1´Ü°è, ¸ó½ºÅÍ¿¡°Ô ½ºÅ³ Á¤º¸ °¡Á®¿È
+            //1ë‹¨ê³„, ëª¬ìŠ¤í„°ì—ê²Œ ìŠ¤í‚¬ ì •ë³´ ê°€ì ¸ì˜´
             fSubmitSkillFromMonster();
 
-            //2´Ü°è, ÇÃ·¹ÀÌ¾î¿¡°Ô »ç¿ëÇÒ ½ºÅ³/¹æÇØÇÒ ½ºÅ³ ÀÔ·Â¹ŞÀ½(ÀÓ½Ã¿ë)------!!º´ÇÕ ÈÄ »èÁ¦!!
-            //ÀÏ´Ü UI´ã´ç ½ºÅ©¸³Æ®¿¡°Ô Á¤º¸¸¦ ³Ñ±è, ¿©±â ÀÖ´Â°Ç ÀÓ½Ã¿ëÀÓ
+            //2ë‹¨ê³„, í”Œë ˆì´ì–´ì—ê²Œ ì‚¬ìš©í•  ìŠ¤í‚¬/ë°©í•´í•  ìŠ¤í‚¬ ì…ë ¥ë°›ìŒ(ì„ì‹œìš©)------!!ë³‘í•© í›„ ì‚­ì œ!!
+            //ì¼ë‹¨ UIë‹´ë‹¹ ìŠ¤í¬ë¦½íŠ¸ì—ê²Œ ì •ë³´ë¥¼ ë„˜ê¹€, ì—¬ê¸° ìˆëŠ”ê±´ ì„ì‹œìš©ì„
             ui.DisplayToPlayer(BMonsters, BSkillQueue);
 
-            // ÀÔ·Â ´ë±â
+            // ì…ë ¥ ëŒ€ê¸°
             yield return StartCoroutine(ui.WaitForInput());
             tmpInputProcess();
 
-            //¿ì¼±¼øÀ§ ±âÁØ Á¤·Ä
+            //ìš°ì„ ìˆœìœ„ ê¸°ì¤€ ì •ë ¬
             SortQueue();
 
-            //3´Ü°è, ¸®½ºÆ®¿¡ ³²¾ÆÀÖ´Â ½ºÅ³ÀÇ °á°ú ¿¬»ê
+            //3ë‹¨ê³„, ë¦¬ìŠ¤íŠ¸ì— ë‚¨ì•„ìˆëŠ” ìŠ¤í‚¬ì˜ ê²°ê³¼ ì—°ì‚°
             fProcessSkills();
 
         }
     }
 
-    //¸ó½ºÅÍ¿¡°Ô ½ºÅ³ Á¤º¸ °¡Á®¿Í ½ºÅ³ ¸®½ºÆ® °»½Å
+    //ëª¬ìŠ¤í„°ì—ê²Œ ìŠ¤í‚¬ ì •ë³´ ê°€ì ¸ì™€ ìŠ¤í‚¬ ë¦¬ìŠ¤íŠ¸ ê°±ì‹ 
     public void fSubmitSkillFromMonster()
     {
         foreach (var oneMonster in BMonsters)
         {
-            //ÇØ´ç ¸ó½ºÅÍ°¡ Çàµ¿ ºÒ°¡¶ó¸é
+            //í•´ë‹¹ ëª¬ìŠ¤í„°ê°€ í–‰ë™ ë¶ˆê°€ë¼ë©´
             if (!oneMonster.Value.MReady)
-                //ÇØ´ç ¸ó½ºÅÍ´Â Çàµ¿ ½ºÅµ
+                //í•´ë‹¹ ëª¬ìŠ¤í„°ëŠ” í–‰ë™ ìŠ¤í‚µ
                 continue;
 
-            //ÇØ´ç ¸ó½ºÅÍ¿¡°Ô µî·ÏµÈ ½ºÅ³Áß ·£´ıÇÑ ÇÏ³ªÀÇ ½ºÅ³ÀÇ ¿¬»ê°ª ¹Ş¾Æ¿È
+            //í•´ë‹¹ ëª¬ìŠ¤í„°ì—ê²Œ ë“±ë¡ëœ ìŠ¤í‚¬ì¤‘ ëœë¤í•œ í•˜ë‚˜ì˜ ìŠ¤í‚¬ì˜ ì—°ì‚°ê°’ ë°›ì•„ì˜´
             List<double> tmp = oneMonster.Value.MgetRandomSkill();
-            //´©±¸¿¡°Ô °¥°ÇÁö Å¸ÀÔÀ¸·Î È®ÀÎ. Â¦¼ö¸é ¸ó½ºÅÍ, È¦¼ö¸é ÇÃ·¹ÀÌ¾î
-            //Â¦¼ö¶ó¸é
+            //ëˆ„êµ¬ì—ê²Œ ê°ˆê±´ì§€ íƒ€ì…ìœ¼ë¡œ í™•ì¸. ì§ìˆ˜ë©´ ëª¬ìŠ¤í„°, í™€ìˆ˜ë©´ í”Œë ˆì´ì–´
+            //ì§ìˆ˜ë¼ë©´
             if (tmp[Skill.TYPE] % 2 == 0)
-                //Å¸ÀÔÀ» ½ºÅ³ÀÇ ´ë»ó ¸ó½ºÅÍID·Î º¯°æ
+                //íƒ€ì…ì„ ìŠ¤í‚¬ì˜ ëŒ€ìƒ ëª¬ìŠ¤í„°IDë¡œ ë³€ê²½
                 tmp[0] = BMonsters.Keys.ElementAt(Random.Range(0, BMonsters.Count));
-            //È¦¼ö¶ó¸é
+            //í™€ìˆ˜ë¼ë©´
             else
-                //Å¸ÀÔ-> ÇÃ·¹ÀÌ¾î ´ë»óÀ¸·Î º¯°æ, ÇöÀç ÇÃ·¹ÀÌ¾î ´ë»óÀº ±¸»ó¾ÈµÇ¾îÀÖÀ¸¹Ç·Î ÀÏ´Ü -1
+                //íƒ€ì…-> í”Œë ˆì´ì–´ ëŒ€ìƒìœ¼ë¡œ ë³€ê²½, í˜„ì¬ í”Œë ˆì´ì–´ ëŒ€ìƒì€ êµ¬ìƒì•ˆë˜ì–´ìˆìœ¼ë¯€ë¡œ ì¼ë‹¨ -1
                 tmp[0] = -1;
 
-            //¸Ç µÚ¿¡ ½ºÅ³ ´©°¡ ½è´ÂÁö ³»ºÎ ID·Î ±â·Ï
+            //ë§¨ ë’¤ì— ìŠ¤í‚¬ ëˆ„ê°€ ì¼ëŠ”ì§€ ë‚´ë¶€ IDë¡œ ê¸°ë¡
             tmp.Add(oneMonster.Key);
 
-            //½ºÅ³ ´ë±â¸®½ºÆ®¿¡ ÀúÀå
+            //ìŠ¤í‚¬ ëŒ€ê¸°ë¦¬ìŠ¤íŠ¸ì— ì €ì¥
             BSkillQueue.Add(tmp);
         }
     }
 
-   //¸®½ºÆ®¿¡ ÀÖ´Â ½ºÅ³ÀÇ °á°ú ¿¬»ê
+   //ë¦¬ìŠ¤íŠ¸ì— ìˆëŠ” ìŠ¤í‚¬ì˜ ê²°ê³¼ ì—°ì‚°
     public void fProcessSkills()
     {
-        //           + °¡Àå µÚ´Â ½ºÅ³ ¾´ ´ë»ó
+        //           + ê°€ì¥ ë’¤ëŠ” ìŠ¤í‚¬ ì“´ ëŒ€ìƒ
         foreach (var oneSkill in BSkillQueue)
         {
-            //¸ó½ºÅÍ ´ë»óÀÌ°í
+            //ëª¬ìŠ¤í„° ëŒ€ìƒì´ê³ 
             if (oneSkill[0] >= 0)
             {
-                //½ºÅ³À» °è»êÇÏ¸é ¾ÈµÉ ¶§ Á¶°Ç
+                //ìŠ¤í‚¬ì„ ê³„ì‚°í•˜ë©´ ì•ˆë  ë•Œ ì¡°ê±´
 
-                    //»ç¿ëÀÚ°¡ ÇÃ·¹ÀÌ¾î°¡ ¾Æ´Ñµ¥
+                    //ì‚¬ìš©ìê°€ í”Œë ˆì´ì–´ê°€ ì•„ë‹Œë°
                 if (!((int)oneSkill[oneSkill.Count - 1] <= -1) &&
-                     //´ë»ó ¸ó½ºÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê°Å³ª,
+                     //ëŒ€ìƒ ëª¬ìŠ¤í„°ê°€ ì¡´ì¬í•˜ì§€ ì•Šê±°ë‚˜,
                     (!BMonsters.ContainsKey((int)oneSkill[0]) ||
-                     //½ºÅ³À» »ç¿ëÇÑ ¸ó½ºÅÍ°¡ Á¸ÀçÇÏÁö ¾Ê°Å³ª
+                     //ìŠ¤í‚¬ì„ ì‚¬ìš©í•œ ëª¬ìŠ¤í„°ê°€ ì¡´ì¬í•˜ì§€ ì•Šê±°ë‚˜
                      !BMonsters.ContainsKey((int)oneSkill[oneSkill.Count - 1]) ||
-                     //½ºÅ³À» »ç¿ëÇÑ ¸ó½ºÅÍ°¡ °è»êÁßÀÎ ½ÃÁ¡¿¡¼­ Çàµ¿ ºÒ°¡´ÉÇÏ´Ù¸é
+                     //ìŠ¤í‚¬ì„ ì‚¬ìš©í•œ ëª¬ìŠ¤í„°ê°€ ê³„ì‚°ì¤‘ì¸ ì‹œì ì—ì„œ í–‰ë™ ë¶ˆê°€ëŠ¥í•˜ë‹¤ë©´
                      !BMonsters[(int)oneSkill[oneSkill.Count - 1]].MReady) )
-                    //ÇØ´ç ½ºÅ³Àº ½ºÅµ
+                    //í•´ë‹¹ ìŠ¤í‚¬ì€ ìŠ¤í‚µ
                     continue;
 
-                //°ø°İÀÌ¶ó¸é
+                //ê³µê²©ì´ë¼ë©´
                 if ((int)oneSkill[Skill.ID] % 10 == 1)
                 {
-                    //´Ù´ÜÈ÷Æ®°¡ ¾Æ´Ï¶ó¸é == 10ÀÇ ÀÚ¸®¼ö°¡ 9°¡ ¾Æ´Ï¶ó¸é
+                    //ë‹¤ë‹¨íˆíŠ¸ê°€ ì•„ë‹ˆë¼ë©´ == 10ì˜ ìë¦¬ìˆ˜ê°€ 9ê°€ ì•„ë‹ˆë¼ë©´
                     if (((int)oneSkill[Skill.ID] % 100) / 10 != 9)
                     {
-                        //»ç¿ëÀÚ°¡ ÇÃ·¹ÀÌ¾î¶ó¸é
+                        //ì‚¬ìš©ìê°€ í”Œë ˆì´ì–´ë¼ë©´
                         if ((int)oneSkill[oneSkill.Count - 1] < 0)
-                            //´ë»ó ¸ó½ºÅÍ ÇöÀç Ã¼·Â¿¡ ¿¬»ê°ª Àü´Ş
+                            //ëŒ€ìƒ ëª¬ìŠ¤í„° í˜„ì¬ ì²´ë ¥ì— ì—°ì‚°ê°’ ì „ë‹¬
                             BMonsters[(int)oneSkill[0]].MSetDamagedHP(oneSkill[SkillAttack.DAMAGE]);
-                        //»ç¿ëÀÚ°¡ ¸ó½ºÅÍ¶ó¸é
+                        //ì‚¬ìš©ìê°€ ëª¬ìŠ¤í„°ë¼ë©´
                         else
-                            //´ë»ó ¸ó½ºÅÍ ÇöÀç Ã¼·Â¿¡ ¿¬»ê°ª + ¸ó½ºÅÍÀÇ µ¥¹ÌÁö Ãß°¡°ªÀ» ´õÇÔ
+                            //ëŒ€ìƒ ëª¬ìŠ¤í„° í˜„ì¬ ì²´ë ¥ì— ì—°ì‚°ê°’ + ëª¬ìŠ¤í„°ì˜ ë°ë¯¸ì§€ ì¶”ê°€ê°’ì„ ë”í•¨
                             BMonsters[(int)oneSkill[0]].MSetDamagedHP(oneSkill[SkillAttack.DAMAGE] + BMonsters[(int)oneSkill[oneSkill.Count - 1]].MProcessedStat()[TurnMonster.DAMAGE]);
                     }
-                    //´Ù´ÜÈ÷Æ®¶ó¸é
+                    //ë‹¤ë‹¨íˆíŠ¸ë¼ë©´
                     else
                     {
-                        //»ç¿ëÀÚ°¡ ÇÃ·¹ÀÌ¾î¶ó¸é
+                        //ì‚¬ìš©ìê°€ í”Œë ˆì´ì–´ë¼ë©´
                         if ((int)oneSkill[oneSkill.Count - 1] < 0)
-                            //´Ù´Ü È÷Æ® ¼ö ¸¸Å­
+                            //ë‹¤ë‹¨ íˆíŠ¸ ìˆ˜ ë§Œí¼
                             for(int i = 0; i < (int)oneSkill[SkillAttackMultiHit.HITCOUNT]; i++)
-                                //´ë»ó ¸ó½ºÅÍ ÇöÀç Ã¼·Â¿¡ ¿¬»ê°ª Àü´Ş
+                                //ëŒ€ìƒ ëª¬ìŠ¤í„° í˜„ì¬ ì²´ë ¥ì— ì—°ì‚°ê°’ ì „ë‹¬
                                 BMonsters[(int)oneSkill[0]].MSetDamagedHP(oneSkill[SkillAttack.DAMAGE]);
-                        //»ç¿ëÀÚ°¡ ¸ó½ºÅÍ¶ó¸é
+                        //ì‚¬ìš©ìê°€ ëª¬ìŠ¤í„°ë¼ë©´
                         else
-                            //´Ù´Ü È÷Æ® ¼ö ¸¸Å­
+                            //ë‹¤ë‹¨ íˆíŠ¸ ìˆ˜ ë§Œí¼
                             for (int i = 0; i < (int)oneSkill[SkillAttackMultiHit.HITCOUNT]; i++)
-                                //´ë»ó ¸ó½ºÅÍ ÇöÀç Ã¼·Â¿¡ ¿¬»ê°ª + ¸ó½ºÅÍÀÇ µ¥¹ÌÁö Ãß°¡°ªÀ» ´õÇÔ
+                                //ëŒ€ìƒ ëª¬ìŠ¤í„° í˜„ì¬ ì²´ë ¥ì— ì—°ì‚°ê°’ + ëª¬ìŠ¤í„°ì˜ ë°ë¯¸ì§€ ì¶”ê°€ê°’ì„ ë”í•¨
                                 BMonsters[(int)oneSkill[0]].MSetDamagedHP(oneSkill[SkillAttack.DAMAGE] + BMonsters[(int)oneSkill[oneSkill.Count - 1]].MProcessedStat()[TurnMonster.DAMAGE]);
                     }
 
-                    //ÇÇ°İÀÚ°¡ ³²Àº Ã¼·ÂÀÌ ¾ø´Ù¸é
+                    //í”¼ê²©ìê°€ ë‚¨ì€ ì²´ë ¥ì´ ì—†ë‹¤ë©´
                     if (BMonsters[(int)oneSkill[0]].MGetLeftHP() <= 0)
                     {
-                        //ÇØ´ç ¸ó½ºÅÍ ÆÄ±«
+                        //í•´ë‹¹ ëª¬ìŠ¤í„° íŒŒê´´
                         Destroy(BMonsters[(int)oneSkill[0]].gameObject);
                         BMonsters.Remove((int)oneSkill[0]);
                     }
                 }
 
-                //ÈúÀÌ¶ó¸é
+                //íì´ë¼ë©´
                 else if ((int)oneSkill[Skill.ID] % 10 == 4)
-                    //´ë»ó ¸ó½ºÅÍ ÇöÀç Ã¼·Â¿¡ ¿¬»ê°ª Àü´Ş
+                    //ëŒ€ìƒ ëª¬ìŠ¤í„° í˜„ì¬ ì²´ë ¥ì— ì—°ì‚°ê°’ ì „ë‹¬
                     BMonsters[(int)oneSkill[0]].MSetHealHP(oneSkill[SkillHeal.AMOUNT]);
 
-                //¹öÇÁ||µğ¹öÇÁ¶ó¸é
+                //ë²„í”„||ë””ë²„í”„ë¼ë©´
                 else if ((int)oneSkill[Skill.ID] % 10 == 2 || (int)oneSkill[Skill.ID] % 10 == 2)
-                    //´ë»ó ¸ó½ºÅÍ ¹öÇÁÄÁÆ®·Ñ·¯¿¡ ¿¬»ê°ª Àü´Ş
+                    //ëŒ€ìƒ ëª¬ìŠ¤í„° ë²„í”„ì»¨íŠ¸ë¡¤ëŸ¬ì— ì—°ì‚°ê°’ ì „ë‹¬
                     BMonsters[(int)oneSkill[0]].buffController.FAddBuff(oneSkill[SkillBuff.ADD], oneSkill[SkillBuff.MULTI],
                                                                         oneSkill[SkillBuff.TARGETSTAT], oneSkill[SkillBuff.DURATION], oneSkill[Skill.ID]);
-                //Áö¼Ó µ¥¹ÌÁö¶ó¸é(¹Ì±¸Çö)------
+                //ì§€ì† ë°ë¯¸ì§€ë¼ë©´(ë¯¸êµ¬í˜„)------
             }
-            //ÇÃ·¹ÀÌ¾î ´ë»óÀÌ°í(¹Ì±¸Çö)------
+            //í”Œë ˆì´ì–´ ëŒ€ìƒì´ê³ (ë¯¸êµ¬í˜„)------
             //else;
         }
     }
 
-    //¿ì¼±¼øÀ§ ±âÁØÀ¸·Î BSkillQueue¸¦ Á¤·Ä, ³»¸²Â÷¼ø Á¤·Ä
+    //ìš°ì„ ìˆœìœ„ ê¸°ì¤€ìœ¼ë¡œ BSkillQueueë¥¼ ì •ë ¬, ë‚´ë¦¼ì°¨ìˆœ ì •ë ¬
     public void SortQueue()
     {
         BSkillQueue.Sort((x, y) => y[Skill.PRIORITY].CompareTo(x[Skill.PRIORITY])) ;
     }
 
-    //!!ÀÓ½Ã!! ÇÃ·¹ÀÌ¾îÀÇ ÀÔ·ÂÀ» ¹Ş¾Æ¿Í °è»ê, !!º´ÇÕ ÈÄ »èÁ¦!!
+    //!!ì„ì‹œ!! í”Œë ˆì´ì–´ì˜ ì…ë ¥ì„ ë°›ì•„ì™€ ê³„ì‚°, !!ë³‘í•© í›„ ì‚­ì œ!!
     private void tmpInputProcess()
     {
-        //ÀÔ·Â ¹Ş¾Æ¿È
+        //ì…ë ¥ ë°›ì•„ì˜´
         string tmp = ui.GetInputText();
-        //°ø°İÀÌ¶ó¸é
+        //ê³µê²©ì´ë¼ë©´
         if (tmp[0] == 'A' || tmp[0] == 'a')
         {
-            //ÀÔ·Â¹ŞÀº Å°°¡ ÀÖ´Ù¸é
+            //ì…ë ¥ë°›ì€ í‚¤ê°€ ìˆë‹¤ë©´
             if(BMonsters.ContainsKey(tmp[1] - '0'))
             {
-                //½ºÅ³ Å¥¿¡ ÀÔ·Â
+                //ìŠ¤í‚¬ íì— ì…ë ¥
                 List<double> tmpskill = new List<double>
                 {
-                    //´ë»ó      , id(°ø°İ), ¿ì¼±¼øÀ§(ÀÓÀÇ·Î 1), µ¥¹ÌÁö(ÀÓÀÇ·Î 25), »ç¿ëÀÚ(ÇÃ·¹ÀÌ¾î)
+                    //ëŒ€ìƒ      , id(ê³µê²©), ìš°ì„ ìˆœìœ„(ì„ì˜ë¡œ 1), ë°ë¯¸ì§€(ì„ì˜ë¡œ 25), ì‚¬ìš©ì(í”Œë ˆì´ì–´)
                     tmp[1] - '0', 1       , 1                 , 25               , -1
                 };
                 BSkillQueue.Add(tmpskill);

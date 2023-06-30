@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class SkillWeakAttack : SkillAttack 
 {
     public override void Awake()
     {
         base.Awake();
-        //2¹øÂ°/´Ù´ÜÈ÷Æ® ¾Æ´Ñ °ø°Ý(1)
+        //2ë²ˆì§¸/ë‹¤ë‹¨ížˆíŠ¸ ì•„ë‹Œ ê³µê²©(1)
         Id = 201;
         SADamage = 10;
     }

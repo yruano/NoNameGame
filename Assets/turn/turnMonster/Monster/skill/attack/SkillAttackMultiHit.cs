@@ -1,25 +1,22 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-
 public class SkillAttackMultiHit : SkillAttack
 {
     public const int HITCOUNT = 4;
-    //È÷Æ® ¼ö
+    //íˆíŠ¸ ìˆ˜
     public double SAHitCount = 2;
     public override void Awake()
     {
         base.Awake();
-        // ´Ù´ÜÈ÷Æ®/°ø°İ
+        // ë‹¤ë‹¨íˆíŠ¸/ê³µê²©
         Id = 91;
     }
     override public List<double> SFunction()
     {
-        //±âº» ¸®½ºÆ®¸¦ °¡Á®¿À°í
+        //ê¸°ë³¸ ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜¤ê³ 
         List<double> tmp = base.SFunction();
-        //µÚ¿¡ È÷Æ®¼ö¸¦ ÀûÀº ÈÄ
+        //ë’¤ì— íˆíŠ¸ìˆ˜ë¥¼ ì ì€ í›„
         tmp.Add(SAHitCount);
-        //È£ÃâÇÑ°÷¿¡ ¹İÈ¯
+        //í˜¸ì¶œí•œê³³ì— ë°˜í™˜
         return tmp;
     }
 }

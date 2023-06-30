@@ -1,139 +1,136 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
-//¾î¶² ¹öÇÁ°¡ °É·ÁÀÖ´ÂÁö, ¾î¶² °è»êÀÌ µÇ¾îÀÖ´ÂÁö, ³¡³ª±â±îÁö ¸îÅÏÀÌ ³²¾Ò´ÂÁö ±â·Ï.
-//¹öÇÁ´Â Ç×»ó (±âº»°ª + µ¡¼À°ª) * °ö¼À°ªÀ¸·Î °è»êµÊ,
+//ì–´ë–¤ ë²„í”„ê°€ ê±¸ë ¤ìˆëŠ”ì§€, ì–´ë–¤ ê³„ì‚°ì´ ë˜ì–´ìˆëŠ”ì§€, ëë‚˜ê¸°ê¹Œì§€ ëª‡í„´ì´ ë‚¨ì•˜ëŠ”ì§€ ê¸°ë¡.
+//ë²„í”„ëŠ” í•­ìƒ (ê¸°ë³¸ê°’ + ë§ì…ˆê°’) * ê³±ì…ˆê°’ìœ¼ë¡œ ê³„ì‚°ë¨,
 public class BuffController : MonoBehaviour
 {
     [SerializeField]
     private TurnMonster target;
 
-    //[ID][] [0]µ¡¼À°ª [1]°ö¼À°ª [2]¾îµğ¿¡ Àû¿ëµÇ´Â°¡ (-> TurnMonster.»ó¼ö·Î Á¤ÀÇµÇ¾îÀÖÀ½) [3]³²Àº Àû¿ë½Ã°£
+    //[ID][] [0]ë§ì…ˆê°’ [1]ê³±ì…ˆê°’ [2]ì–´ë””ì— ì ìš©ë˜ëŠ”ê°€ (-> TurnMonster.ìƒìˆ˜ë¡œ ì •ì˜ë˜ì–´ìˆìŒ) [3]ë‚¨ì€ ì ìš©ì‹œê°„
     public Dictionary<int, List<double>> BuffInfor = new Dictionary<int, List<double>>();
     public const int BuffAdd = 0;
     public const int BuffMulty = 1;
     public const int BuffTarget = 2;
     public const int BuffLeft = 3;
     public const int BuffId = 4;
-    //¹öÇÁ Àû¿ë ÈÄ °ª
+    //ë²„í”„ ì ìš© í›„ ê°’
     public List<double> ProcessedStat;
-    //¹öÇÁ Àû¿ë ÀüÀÇ ³¯°ÍÀÇ °ª [0]µ¡¼À [1]°ö¼À
+    //ë²„í”„ ì ìš© ì „ì˜ ë‚ ê²ƒì˜ ê°’ [0]ë§ì…ˆ [1]ê³±ì…ˆ
     public List<List<double>> AttatchedRawValue = new List<List<double>>();
 
-    //[0]ID [1]µ¥¹ÌÁö [2]³²Àº Áö¼Ó½Ã°£
-    public List<List<double>> DotInfor = new List<List<double>>();//Áö¼Óµ¥¹ÌÁö Á¤º¸
+    //[0]ID [1]ë°ë¯¸ì§€ [2]ë‚¨ì€ ì§€ì†ì‹œê°„
+    public List<List<double>> DotInfor = new List<List<double>>();//ì§€ì†ë°ë¯¸ì§€ ì •ë³´
     public const int Dotid = 0;
     public const int DotDamage = 1;
     public const int DotLeft = 2;
-    public double DotValue;//Áö¼Óµ¥¹ÌÁö·Î °¨¼ÒµÉ Ã¼·Â Á¤º¸
+    public double DotValue;//ì§€ì†ë°ë¯¸ì§€ë¡œ ê°ì†Œë  ì²´ë ¥ ì •ë³´
 
     public void Awake()
     {
-        //°è»ê ´ë»ó ÁöÁ¤
+        //ê³„ì‚° ëŒ€ìƒ ì§€ì •
         target = GetComponent<TurnMonster>();
-        //Àû¿ë ÈÄ °ªÀ» ÃÊ±âÈ­
+        //ì ìš© í›„ ê°’ì„ ì´ˆê¸°í™”
         ProcessedStat = new List<double>(target.MOriginStat);
-        //Àû¿ë Àü °ªÀ» ÃÊ±âÈ­
+        //ì ìš© ì „ ê°’ì„ ì´ˆê¸°í™”
         for (int i = 0; i < ProcessedStat.Count; i++)
-        {
             AttatchedRawValue.Add(new List<double> { 0.0, 1.0 });
-        }
     }
 
-   //°É¸° ¹öÇÁ¼ö ¹İÈ¯
+   //ê±¸ë¦° ë²„í”„ìˆ˜ ë°˜í™˜
     public int Count()
     {
         return ProcessedStat.Count;
     }
 
-   //ÇÑ ÅÏÀÌ ³Ñ¾î°¥ ¶§ ÇÊ¿äÇÑ ¿¬»ê
-    //³²Àº Àû¿ë½Ã°£ ÀüºÎ -1ÇØ¼­ ÅÏÀÌ ÇÏ³ª ³Ñ¾î°£°É Àû¿ë
+   //í•œ í„´ì´ ë„˜ì–´ê°ˆ ë•Œ í•„ìš”í•œ ì—°ì‚°
+    //ë‚¨ì€ ì ìš©ì‹œê°„ ì „ë¶€ -1í•´ì„œ í„´ì´ í•˜ë‚˜ ë„˜ì–´ê°„ê±¸ ì ìš©
     public void FNextTurn()
     {
-        //¹öÇÁ¿¬»ê
+        //ë²„í”„ì—°ì‚°
         for (int i = 0; i < BuffInfor.Count; i++)
         {
             int key = BuffInfor.Keys.ElementAt(i);
-            //³²ÀºÅÏÀÌ 0ÀÌ¸é Á¦°Å
+            //ë‚¨ì€í„´ì´ 0ì´ë©´ ì œê±°
             if (--BuffInfor[key][3] <= 0)
             {
-                //¹öÇÁ Àû¿ë Àü °ªÀ» °»½Å (½ºÅİ + µ¡¼À°ª) * °ö¼À°ª 
+                //ë²„í”„ ì ìš© ì „ ê°’ì„ ê°±ì‹  (ìŠ¤í…Ÿ + ë§ì…ˆê°’) * ê³±ì…ˆê°’ 
                 AttatchedRawValue[(int)BuffInfor[key][BuffTarget]][BuffAdd] -= BuffInfor[key][BuffAdd];
                 AttatchedRawValue[(int)BuffInfor[key][BuffTarget]][BuffMulty] /= BuffInfor[key][BuffMulty];
-                //¹öÇÁ Àû¿ë ÈÄ °ªÀ» °»½Å
+                //ë²„í”„ ì ìš© í›„ ê°’ì„ ê°±ì‹ 
                 ProcessedStat[ (int)BuffInfor[key][BuffTarget] ] = (target.MOriginStat[BuffTarget] + AttatchedRawValue[(int)BuffInfor[key][BuffTarget]][0]) * AttatchedRawValue[(int)BuffInfor[key][BuffTarget]][1];
-                //¸ñ·Ï¿¡¼­ »èÁ¦
+                //ëª©ë¡ì—ì„œ ì‚­ì œ
                 BuffInfor.Remove(key);
-                i--; //»èÁ¦µÆÀ¸´Ï ÀÎµ¦½º À§Ä¡ Á¶Á¤
-                //³²Àº ¹öÇÁ°¡ ¾ø´Ù¸é ¿øº»°ªÀ¸·Î ±³Ã¼, ¼Ò¼ö¿¬»êÀÌ¶ó ¿ÀÂ÷ »ı±æ ¼ö ÀÖ´Â°Å ¹Ù·ÎÀâ¾ÆÁÖ±âÀ§ÇØ
+                i--; //ì‚­ì œëìœ¼ë‹ˆ ì¸ë±ìŠ¤ ìœ„ì¹˜ ì¡°ì •
+                //ë‚¨ì€ ë²„í”„ê°€ ì—†ë‹¤ë©´ ì›ë³¸ê°’ìœ¼ë¡œ êµì²´, ì†Œìˆ˜ì—°ì‚°ì´ë¼ ì˜¤ì°¨ ìƒê¸¸ ìˆ˜ ìˆëŠ”ê±° ë°”ë¡œì¡ì•„ì£¼ê¸°ìœ„í•´
                 if(BuffInfor.Count <= 0)
                     ProcessedStat = target.MOriginStat;
             }
         }
-        //Áö¼Óµ¥¹ÌÁö ¿¬»ê
+        //ì§€ì†ë°ë¯¸ì§€ ì—°ì‚°
         for(int i = 0; i < DotInfor.Count; i++)
         {
-            //³²Àº ÅÏÀÌ 0ÀÌ¸é Á¦°Å
+            //ë‚¨ì€ í„´ì´ 0ì´ë©´ ì œê±°
             if (--DotInfor[i][DotLeft] <= 0)
             {
-                //Àû¿ëµÉ °ª °»½Å
+                //ì ìš©ë  ê°’ ê°±ì‹ 
                 DotValue -= DotInfor[i][DotDamage];
-                //¹è¿­¿¡¼­ Á¦°Å
+                //ë°°ì—´ì—ì„œ ì œê±°
                 DotInfor.RemoveAt(i);
                 i--;
             }    
         }
-        //µµÆ®µ© ¿ä¼Ò°¡ 1°³¶óµµ ÀÖÀ¸¸é
+        //ë„íŠ¸ë€ ìš”ì†Œê°€ 1ê°œë¼ë„ ìˆìœ¼ë©´
         if (DotInfor.Count > 0)
-            //Áö¼Óµ¥¹ÌÁö·Î Ã¼·Â¿¡ µ¥¹ÌÁö ÀÔÈû
+            //ì§€ì†ë°ë¯¸ì§€ë¡œ ì²´ë ¥ì— ë°ë¯¸ì§€ ì…í˜
             target.MSetDamagedHP(DotValue);
     }
 
-   //°É¸° ¹öÇÁ Ãß°¡
-    // [0]: µ¡¼À°ª, [1]:°ö¼À°ª, [2]¾îµğ¿¡ Àû¿ëµÇ´ÂÁö, [3]Áö¼Ó ½Ã°£, [4]: ID
+   //ê±¸ë¦° ë²„í”„ ì¶”ê°€
+    // [0]: ë§ì…ˆê°’, [1]:ê³±ì…ˆê°’, [2]ì–´ë””ì— ì ìš©ë˜ëŠ”ì§€, [3]ì§€ì† ì‹œê°„, [4]: ID
     public void FAddBuff(List<double> newBuff) 
     {
-        //¸¸¾à ÀÌ¹Ì ÀÖ´Â ¹öÇÁ¶ó¸é
+        //ë§Œì•½ ì´ë¯¸ ìˆëŠ” ë²„í”„ë¼ë©´
         if (BuffInfor.ContainsKey((int)newBuff[BuffId]))
         {
-            //Áö¼Ó½Ã°£¸¸ °»½Å
+            //ì§€ì†ì‹œê°„ë§Œ ê°±ì‹ 
             if(BuffInfor[(int)newBuff[BuffId]][BuffLeft] < newBuff[BuffLeft])
                 BuffInfor[(int)newBuff[BuffId]][BuffLeft] = newBuff[BuffLeft];
+
             return;
         }
-        //¹«½¼ ¹öÇÁÀÎÁö ¸ñ·Ï¿¡ Ãß°¡
+        //ë¬´ìŠ¨ ë²„í”„ì¸ì§€ ëª©ë¡ì— ì¶”ê°€
         BuffInfor.Add((int)newBuff[BuffId], newBuff.GetRange(0, newBuff.Count-1));
-        //¹öÇÁ Àû¿ëÀü °ªÀ» °»½Å
+
+        //ë²„í”„ ì ìš©ì „ ê°’ì„ ê°±ì‹ 
         AttatchedRawValue[(int)newBuff[BuffTarget]][BuffAdd] += newBuff[BuffAdd];
         AttatchedRawValue[(int)newBuff[BuffTarget]][BuffMulty] *= newBuff[BuffMulty];
-        //¹öÇÁ Àû¿ë ÈÄ °ª °»½Å
+
+        //ë²„í”„ ì ìš© í›„ ê°’ ê°±ì‹ 
         ProcessedStat[ (int)newBuff[BuffTarget] ] += (target.MOriginStat[BuffTarget] + AttatchedRawValue[(int)newBuff[BuffTarget]][0]) * AttatchedRawValue[(int)newBuff[BuffTarget]][0];
     }
 
     public void FAddBuff(double AddVal, double MultiVal, double Target, double left, double Id)
     {
-        //À§ ÇÔ¼ö ÀçÁ¤ÀÇ, ±×³É ¹è¿­ÀÌ ¾Æ´Ñ°É ¹è¿­·Î ±³Ã¼ÇØ¼­ ±â·Ï
+        //ìœ„ í•¨ìˆ˜ ì¬ì •ì˜, ê·¸ëƒ¥ ë°°ì—´ì´ ì•„ë‹Œê±¸ ë°°ì—´ë¡œ êµì²´í•´ì„œ ê¸°ë¡
         FAddBuff(new List<double> { AddVal, MultiVal, Target, left, Id});
     }
 
-   //°É¸° Áö¼Óµô Ãß°¡
+   //ê±¸ë¦° ì§€ì†ë”œ ì¶”ê°€
     public void FAddDot(List<double> newDot)
     {
-        //[0]ID, [1]µ¥¹ÌÁö, [2]Áö¼Ó½Ã°£  
+        //[0]ID, [1]ë°ë¯¸ì§€, [2]ì§€ì†ì‹œê°„  
         DotInfor.Add(newDot);
     }
     public void FAddDot(double id, double damage, double time)
     {
-        //À§ ÇÔ¼ö ¿À¹ö·Îµù, ¹è¿­ÀÌ ¾Æ´Ï¾îµµ µÇµµ·Ï
+        //ìœ„ í•¨ìˆ˜ ì˜¤ë²„ë¡œë”©, ë°°ì—´ì´ ì•„ë‹ˆì–´ë„ ë˜ë„ë¡
         FAddDot(new List<double> { id, damage, time});
     }
 
-    ////¹öÇÁ¿¬»ê ¼öÁ¤»çÇ×
+    ////ë²„í”„ì—°ì‚° ìˆ˜ì •ì‚¬í•­ì´ ìƒê¸°ë©´ ì—¬ê¸°ë‹¤ ì“°ì
     //public void FFixBuff()
     //{
 

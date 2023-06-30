@@ -2,43 +2,43 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-//!!º´ÇÕ ÈÄ »èÁ¦!!
+//!!ë³‘í•© í›„ ì‚­ì œ!!
 public class TextTempUI : MonoBehaviour
 {
     [SerializeField]
-    public TMP_Text output;  // TextMeshPro °´Ã¼ÃßÀû
-    public TMP_Text battleLog;  // TextMeshPro °´Ã¼ÃßÀû
+    public TMP_Text output;  // TextMeshPro ê°ì²´ì¶”ì 
+    public TMP_Text battleLog;  // TextMeshPro ê°ì²´ì¶”ì 
     public InputField input;
 
-    //Ãâ·ÂÇÒ ½ºÅ³ µ¥ÀÌÅÍ
+    //ì¶œë ¥í•  ìŠ¤í‚¬ ë°ì´í„°
     public string skillData = "";
-    //Ãâ·ÂÇÒ ¸ó½ºÅÍ µ¥ÀÌÅÍ
+    //ì¶œë ¥í•  ëª¬ìŠ¤í„° ë°ì´í„°
     public string monsterData = "";
-    //ÀÔ·Â Áß°è ¹Ş±âÀ§ÇÑ º¯¼ö
+    //ì…ë ¥ ì¤‘ê³„ ë°›ê¸°ìœ„í•œ ë³€ìˆ˜
     private bool inputReceived = false;
-    //ÀÔ·Â¹ŞÀº ¹®ÀÚ¿­
+    //ì…ë ¥ë°›ì€ ë¬¸ìì—´
     private string inputText = "";
     public void Awake()
     {
-        //Text¿¬°á
+        //Textì—°ê²°
         output = GameObject.Find("Text").GetComponent<TMP_Text>();
         battleLog = GameObject.Find("batteLog").GetComponent<TMP_Text>();
-        //inputField ¿¬°á
+        //inputField ì—°ê²°
         input = GameObject.Find("InputField").GetComponent<InputField>();
-        //ÀÌº¥Æ® ¸®½º³Ê µî·Ï
+        //ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆ ë“±ë¡
         input.onEndEdit.AddListener(OnInputEndEdit);
-        //·Î±× ÃÊ±âÈ­
+        //ë¡œê·¸ ì´ˆê¸°í™”
         battleLog.text = "";
     }
 
-    //ÀÔ·Â Áß°è
-    //ÀÔ·Â ¿Ï·á½Ã ÇØ´ç ¹®ÀÚ¿­ ÀúÀå
+    //ì…ë ¥ ì¤‘ê³„
+    //ì…ë ¥ ì™„ë£Œì‹œ í•´ë‹¹ ë¬¸ìì—´ ì €ì¥
     private void OnInputEndEdit(string input)
     {
         inputReceived = true;
         inputText = input;
     }
-    //ÀÔ·Â °¨ÁöÇÏ¸ç ´ë±âÇÔ
+    //ì…ë ¥ ê°ì§€í•˜ë©° ëŒ€ê¸°í•¨
     public System.Collections.IEnumerator WaitForInput()
     {
         inputReceived = false;
@@ -50,32 +50,32 @@ public class TextTempUI : MonoBehaviour
         }
     }
 
-    //ÀüÅõ ÄÁÆ®·Ñ·¯¿¡°Ô¼­ ½ºÅ³¹è¿­°ú ¸ó½ºÅÍ µñ¼Å³Ê¸®¸¦ ¹Ş°í, ±×°É ÇÃ·¹ÀÌ¾î¿¡°Ô ÀĞ¾îÁÜ
+    //ì „íˆ¬ ì»¨íŠ¸ë¡¤ëŸ¬ì—ê²Œì„œ ìŠ¤í‚¬ë°°ì—´ê³¼ ëª¬ìŠ¤í„° ë”•ì…”ë„ˆë¦¬ë¥¼ ë°›ê³ , ê·¸ê±¸ í”Œë ˆì´ì–´ì—ê²Œ ì½ì–´ì¤Œ
     public void DisplayToPlayer(Dictionary<int, TurnMonster> BMonsters, List<List<double>> BSkillQueue)
     {
         skillData += "skill infor\n";
-        //½ºÅ³ ¾´³ğÀÌ¶û ³»¿ë, ¿ì¼±¼øÀ§ ÀĞ¾îÁÜ
+        //ìŠ¤í‚¬ ì“´ë†ˆì´ë‘ ë‚´ìš©, ìš°ì„ ìˆœìœ„ ì½ì–´ì¤Œ
         foreach(var skill in BSkillQueue)
         {
             skillData += "monster ID: " + (int)skill[skill.Count - 1] + " \nusing: ";
-            //°ø°İ
+            //ê³µê²©
             if ((int)skill[Skill.ID] % 10 == 1)
             {
-                //µ¥¹ÌÁö Ãâ·Â
+                //ë°ë¯¸ì§€ ì¶œë ¥
                 skillData += "Attack \ndamage: " + skill[SkillAttack.DAMAGE] + "\n";
             }
 
-            //Èú
+            //í
             else if ((int)skill[Skill.ID] % 10 == 4)
             {
-                //´ë»ó, Ä¡·á·® Ãâ·Â
+                //ëŒ€ìƒ, ì¹˜ë£ŒëŸ‰ ì¶œë ¥
                 skillData += "heal \ntarget ID: " + skill[0] + ", amount: " + skill[SkillHeal.AMOUNT] + "\n";
             }
 
-            //¹öÇÁ
+            //ë²„í”„
             else if ((int)skill[Skill.ID] % 10 == 2)
             {
-                //´ë»ó °´Ã¼, ´ë»ó ½ºÅİ, ¿¬»ê°ª µ¡¼À, ¿¬»ê°ª °ö¼À, Áö¼Ó½Ã°£ Ãâ·Â
+                //ëŒ€ìƒ ê°ì²´, ëŒ€ìƒ ìŠ¤í…Ÿ, ì—°ì‚°ê°’ ë§ì…ˆ, ì—°ì‚°ê°’ ê³±ì…ˆ, ì§€ì†ì‹œê°„ ì¶œë ¥
                 skillData += "buff \ntarget ID: " + skill[0] + " \ntarget stat: ";
                 if (skill[SkillBuff.TARGETSTAT] == TurnMonster.MAXHP) skillData += "max hp";
                 else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.NOWHP) skillData += "current hp";
@@ -89,10 +89,10 @@ public class TextTempUI : MonoBehaviour
                 skillData += "\nduration turn: " + skill[SkillBuff.DURATION] + "\n";
             }
 
-            //µğ¹öÇÁ
+            //ë””ë²„í”„
             else if ((int)skill[Skill.ID] % 10 == 3)
             {
-                //´ë»ó °´Ã¼, ´ë»ó ½ºÅİ, ¿¬»ê°ª µ¡¼À, ¿¬»ê°ª °ö¼À, Áö¼Ó½Ã°£ Ãâ·Â
+                //ëŒ€ìƒ ê°ì²´, ëŒ€ìƒ ìŠ¤í…Ÿ, ì—°ì‚°ê°’ ë§ì…ˆ, ì—°ì‚°ê°’ ê³±ì…ˆ, ì§€ì†ì‹œê°„ ì¶œë ¥
                 skillData += "debuff \ntarget: player, \ntarget stat: ";
                 if (skill[SkillBuff.TARGETSTAT] == TurnMonster.MAXHP) skillData += "max hp";
                 else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.NOWHP) skillData += "current hp";
@@ -106,16 +106,16 @@ public class TextTempUI : MonoBehaviour
                 skillData += "\nduration turn: " + skill[SkillBuff.DURATION] + "\n";
             }
 
-            //¿ì¼±¼øÀ§ Ãâ·Â
+            //ìš°ì„ ìˆœìœ„ ì¶œë ¥
             skillData += "priority: " + skill[Skill.PRIORITY] + "\n";
 
 
-            //ÁÙ³Ñ±è
+            //ì¤„ë„˜ê¹€
             skillData += "\n";
         }
 
         monsterData += "alived montser infor\n";
-        //»ì¾ÆÀÖ´Â ¸ó½ºÅÍ ÀĞ¾îÁÜ
+        //ì‚´ì•„ìˆëŠ” ëª¬ìŠ¤í„° ì½ì–´ì¤Œ
         foreach (var monster in BMonsters)
         {
             monsterData += "ID: " + monster.Key + "\n";
@@ -123,14 +123,14 @@ public class TextTempUI : MonoBehaviour
 
         }
 
-        //¸¸µç ¹®ÀÚ¿­ Ãâ·Â
+        //ë§Œë“  ë¬¸ìì—´ ì¶œë ¥
         setText(skillData + "\n\n" + monsterData);
-        //Ãâ·Â¹® ÃÊ±âÈ­
+        //ì¶œë ¥ë¬¸ ì´ˆê¸°í™”
         skillData = "";
         monsterData = "";
     }
 
-    // TextMeshPro °´Ã¼ÀÇ ÅØ½ºÆ®¸¦ º¯°æÇÔ.
+    // TextMeshPro ê°ì²´ì˜ í…ìŠ¤íŠ¸ë¥¼ ë³€ê²½í•¨.
     public void setText(string text)
     {
         output.text = text;
@@ -139,7 +139,7 @@ public class TextTempUI : MonoBehaviour
     {
         return inputText;
     }
-    //log»Ì´Â ÅØ½ºÆ® ¼öÁ¤ÇÔ
+    //logë½‘ëŠ” í…ìŠ¤íŠ¸ ìˆ˜ì •í•¨
     public void setLogText(string text) 
     {
         battleLog.text += text;

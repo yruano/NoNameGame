@@ -12,20 +12,20 @@ public class BattleTrigger : MonoBehaviour
 
     private void Awake()
     {
-        //ÆíÁı±â »ó¿¡ Ãß°¡ÇÑ ¸ó½ºÅÍ°¡ ¾øÀ¸¸é
+        //í¸ì§‘ê¸° ìƒì— ì¶”ê°€í•œ ëª¬ìŠ¤í„°ê°€ ì—†ìœ¼ë©´
         if( monster.Count == 0 ) 
-            //ÇÏ³ª Ã£¾Æ ¿È
+            //í•˜ë‚˜ ì°¾ì•„ ì˜´
             monster.Add(gameObject.AddComponent<TurnMonster>());
 
-        //¹èÆ² ÄÁÆ®·Ñ·¯ ¿¬°á
+        //ë°°í‹€ ì»¨íŠ¸ë¡¤ëŸ¬ ì—°ê²°
         bc = GetComponent<BattleController>();
-        //¸ó½ºÅÍµé µî·Ï
+        //ëª¬ìŠ¤í„°ë“¤ ë“±ë¡
         for(int i = 0; i < monster.Count; i++)
         {
-            //0ºÎÅÍ id¿¬°á
+            //0ë¶€í„° idì—°ê²°
             bc.BMonsters.Add(i, monster[i]);
         }
-        //ÅÏ ½ÃÀÛ
+        //í„´ ì‹œì‘
         bc.turnStart();
     }
 }

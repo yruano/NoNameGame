@@ -1,17 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class SkillAttackMultiHitWeak : SkillAttackMultiHit
 {
     public override void Awake()
     {
         base.Awake();
-        //1¹øÂ°/´Ù´ÜÈ÷Æ®ÀÎ/°ø°İ
+        //1ë²ˆì§¸/ë‹¤ë‹¨íˆíŠ¸ì¸/ê³µê²©
         Id = 191;
-        //µ¥¹ÌÁö 4
+        //ë°ë¯¸ì§€ 4
         SADamage = 4;
-        //È÷Æ®¼ö 4
+        //íˆíŠ¸ìˆ˜ 4
         SAHitCount = 4;
     }
 }

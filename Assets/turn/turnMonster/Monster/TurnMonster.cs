@@ -1,97 +1,95 @@
 //on turn system, in battle, contain basic monter infor 
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-//ÅÏÁ¦ ½Ã½ºÅÛ¿¡¼­ ÀüÅõÁß »ç¿ëÇÒ ¸ó½ºÅÍÀÇ ±âº»Á¤º¸µé
+//í„´ì œ ì‹œìŠ¤í…œì—ì„œ ì „íˆ¬ì¤‘ ì‚¬ìš©í•  ëª¬ìŠ¤í„°ì˜ ê¸°ë³¸ì •ë³´ë“¤
 
 public class TurnMonster : MonoBehaviour
 {
-    //ÀüÅõÁØºñ == Çàµ¿ °¡´ÉÇÑÁö
+    //ì „íˆ¬ì¤€ë¹„ == í–‰ë™ ê°€ëŠ¥í•œì§€
     public bool MReady = true;
-    //ÀÎµ¦½º¿Í ¹è¿­¹æ½Ä 
-    public List<double> MOriginStat = new List<double>{ 100.0, 100.0, 1.0, 1.0, 0.0, 0.0 }; //¿øº» ½ºÅÈ
+    //ì¸ë±ìŠ¤ì™€ ë°°ì—´ë°©ì‹ 
+    public List<double> MOriginStat = new List<double>{ 100.0, 100.0, 1.0, 1.0, 0.0, 0.0 }; //ì›ë³¸ ìŠ¤íƒ¯
     public const int MAXHP = 0;
     public const int NOWHP = 1;
     public const int DAMAGE = 2;
     public const int ARMOR = 3;
     public const int SPEED = 4;
-    /*//°³º° º¯¼ö¹æ½Ä
+    /*//ê°œë³„ ë³€ìˆ˜ë°©ì‹, ë°©ì‹ êµì²´í• ê¹Œ ê³ ë¯¼í–ˆë˜ í”ì ì„.
     public double MMaxHp = 100.0; 
     public double MNowHp = 100.0;
     public double MDamage = 1.0;
     public double MArmor = 0.0;
     public double MSpeed = 1.0;
-    //public double MRange = 1.0; °ÔÀÓ¿¡ °Å¸®°³³äÀÌ ¾ÆÁ÷ ¾øÀ½
-    //public double MPriority = 1.0;//¿ì¼±¼øÀ§?
-    //public double luck = 1.0; È®·ü º¯µ¿ ¼öÄ¡(ÇöÀç ÇØ´ç °³³ä ¾øÀ½)*/
+    //public double MRange = 1.0; ê²Œì„ì— ê±°ë¦¬ê°œë…ì´ ì•„ì§ ì—†ìŒ
+    //public double MPriority = 1.0;//ìš°ì„ ìˆœìœ„?
+    //public double luck = 1.0; í™•ë¥  ë³€ë™ ìˆ˜ì¹˜(í˜„ì¬ í•´ë‹¹ ê°œë… ì—†ìŒ)*/
 
-    //¹öÇÁÄÁÆ®·Ñ·¯ ¿¬°á
+    //ë²„í”„ì»¨íŠ¸ë¡¤ëŸ¬ ì—°ê²°
     public BuffController buffController;
 
     [SerializeField]
-    //°®°í ÀÖ´Â ½ºÅ³µéÀ» ÀúÀå. 
+    //ê°–ê³  ìˆëŠ” ìŠ¤í‚¬ë“¤ì„ ì €ì¥. 
     public List<Skill> MGotSkill = new List<Skill>();
-    //¿ì¼±¼øÀ§ ¹üÀ§ [0]ÃÖ¼Ò [1]ÃÖ´ë, ¼ıÀÚ°¡ Å¬¼ö·Ï ³ôÀº ¿ì¼±¼øÀ§
+    //ìš°ì„ ìˆœìœ„ ë²”ìœ„ [0]ìµœì†Œ [1]ìµœëŒ€, ìˆ«ìê°€ í´ìˆ˜ë¡ ë†’ì€ ìš°ì„ ìˆœìœ„
     public int[] priority = new int[2];
 
-    //»ı¼ºÀÚ
+    //ìƒì„±ì
     public void Awake()
     {
-        //¹öÆÛ ÄÁÆ®·Ñ°ú ¿¬°á
+        //ë²„í¼ ì»¨íŠ¸ë¡¤ê³¼ ì—°ê²°
         buffController = GetComponent<BuffController>();
     }
 
-   //ÀÔ·Â ´ëÀÀ
-    //¹öÇÁ ÄÁÆ®·Ñ·¯¿¡ ¹öÇÁ °è»êÀÎ¼ö Àü´Ş(¹è¿­¹öÀü)
+   //ì…ë ¥ ëŒ€ì‘
+    //ë²„í”„ ì»¨íŠ¸ë¡¤ëŸ¬ì— ë²„í”„ ê³„ì‚°ì¸ìˆ˜ ì „ë‹¬(ë°°ì—´ë²„ì „)
     public void MSetRegistBuff(List<double> newBuff)
     {
         buffController.FAddBuff(newBuff);
     }
     
-    //¹öÇÁ ÄÁÆ®·Ñ·¯¿¡ ¹öÇÁ °è»êÀÎ¼ö Àü´Ş(°³º° ÀÎ¼ö ¹öÀü)
+    //ë²„í”„ ì»¨íŠ¸ë¡¤ëŸ¬ì— ë²„í”„ ê³„ì‚°ì¸ìˆ˜ ì „ë‹¬(ê°œë³„ ì¸ìˆ˜ ë²„ì „)
     public void MSetRegistBuff(double AddVal, double MultiVal, double Target, double left, double Id)
     {
         buffController.FAddBuff(AddVal, MultiVal, Target, left, Id);
     }
     
-    //ÀÔ·Â ¹ŞÀº Èú °ªÀ» Ã¼·Â¿¡ ´õÇÔ
+    //ì…ë ¥ ë°›ì€ í ê°’ì„ ì²´ë ¥ì— ë”í•¨
     public void MSetHealHP(double val)
     {
         MOriginStat[NOWHP] += val;
     }
     
-    //ÀÔ·Â¹ŞÀº µ¥¹ÌÁö °ª¿¡ ¹æ¾î·Â ¸¸Å­À» »¬¼ÀÇÏ°í Ã¼·Â°ª¿¡ Àû¿ëÇÔ
+    //ì…ë ¥ë°›ì€ ë°ë¯¸ì§€ ê°’ì— ë°©ì–´ë ¥ ë§Œí¼ì„ ëº„ì…ˆí•˜ê³  ì²´ë ¥ê°’ì— ì ìš©í•¨
     public void MSetDamagedHP(double val)
     {
         MOriginStat[NOWHP] -= val - buffController.ProcessedStat[ARMOR];
     }
     
-    //ÅÏÀÌ ³Ñ¾î°¥¶§ È£ÃâµÉ °Å È£ÃâÇÔ
+    //í„´ì´ ë„˜ì–´ê°ˆë•Œ í˜¸ì¶œë  ê±° í˜¸ì¶œí•¨
     public void MNextTurn()
     {
         buffController.FNextTurn();
     }
 
-   //Ãâ·Â ´ëÀÀ
-    //¹öÇÁ °è»êµÈ ½ºÅÈ ¹İÈ¯
+   //ì¶œë ¥ ëŒ€ì‘
+    //ë²„í”„ ê³„ì‚°ëœ ìŠ¤íƒ¯ ë°˜í™˜
     public List<double> MProcessedStat()
     {
         return buffController.ProcessedStat;
     }
 
-    //»ç¿ëÇÒ ½ºÅ³ÀÇ °è»ê°ª¿¡ ¿ì¼±¼øÀ§ ±³Ã¼ÇØ ¹İÈ¯
+    //ì‚¬ìš©í•  ìŠ¤í‚¬ì˜ ê³„ì‚°ê°’ì— ìš°ì„ ìˆœìœ„ êµì²´í•´ ë°˜í™˜
     public List<double> MgetRandomSkill()
     {
-        //°¡Áø ½ºÅ³Áß ÇÏ³ª¸¦ ·£´ıÀ¸·Î °ñ¶ó
+        //ê°€ì§„ ìŠ¤í‚¬ì¤‘ í•˜ë‚˜ë¥¼ ëœë¤ìœ¼ë¡œ ê³¨ë¼
         List <double> tmpSkill = MGotSkill[Random.Range(0, MGotSkill.Count)].SFunction();
-        //°®°íÀÖ´Â ¿ì¼±¼øÀ§ ¹üÀ§¸¦ ºÙ¿©
+        //ê°–ê³ ìˆëŠ” ìš°ì„ ìˆœìœ„ ë²”ìœ„ë¥¼ ë¶™ì—¬
         tmpSkill[Skill.PRIORITY] = Random.Range(priority[0], priority[1]);
-        //¹İÈ¯
+        //ë°˜í™˜
         return tmpSkill;
     }
     
-    //ÇöÀç Ã¼·Â ¹İÈ¯
+    //í˜„ì¬ ì²´ë ¥ ë°˜í™˜
     public double MGetLeftHP()
     {
         return MOriginStat[NOWHP];

@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//temporary card, contains card's information
-//ÀÓ½Ã, Ä«µå´ë¿ëÀ¸·Î ¾µ Ä«µåÀÇ °øÅëÀûÀÎ Á¤º¸ ´ã°í ÀÖÀ½.  
+//ëª¨ë“  ìŠ¤í‚¬ì˜ ê³µí†µë¶€ë¶„ ì •ì˜
 abstract public class Skill : MonoBehaviour
 {
     public const int TYPE = 0;
