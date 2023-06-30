@@ -550,7 +550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSO: {fileID: 11400000, guid: 7d101e120b1e34044865fa045088a4bd, type: 2}
-  CardPrefab: {fileID: 2900725082961422344, guid: 919febde558895c44bbab87c074a4605, type: 3}
+  CardPrefab: {fileID: 7145093229051571324, guid: 75de3674d99c1ce4d96729a4a8ea4ae3, type: 3}
   myCards: []
   cardSpawnPoint: {fileID: 230204384}
   PlayerCardLeft: {fileID: 8400740}
