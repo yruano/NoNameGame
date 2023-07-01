@@ -11,7 +11,7 @@ public class CopyAndTest : ScriptableObject
     public string associatedSheet = "";
     public string associatedWorksheet = "";
 
-    public List<string> items = new List<string>();
+    //public List<string> items = new List<string>();
 
     public List<string> Names = new List<string>();
 
@@ -19,7 +19,7 @@ public class CopyAndTest : ScriptableObject
     internal void UpdateStats(List<GSTU_Cell> list, string name)
     {
         //초기화
-        items.Clear();
+        //items.Clear();
         //list는 한 행의 데이터를 가지고있음, [i]는 셀 하나의 정보를 가짐.
         //현재 구조에선 B열을 먼저 읽음, (list[i].column[0] - 'A') == i
         //type을 기준으로 데이터를 찾음, 나중에 순서가 확정되면 순차접근 말고 임의접근으로 바꿀 것
@@ -28,7 +28,7 @@ public class CopyAndTest : ScriptableObject
         if (list[1].value == "1")
         {
             //데이터 저장할 변수 선언
-            int type = -1, ID = -1, damage = -1;
+            int type = -1, ID = -1, damage = -1, priority = -1;
             //각 셀을 순차 접근하며 필요한 데이터를 챙겨옴
             for (int i = 0; i < list.Count; i++)
             {
@@ -36,20 +36,17 @@ public class CopyAndTest : ScriptableObject
                 switch (list[i].columnId)
                 {
                     case "type":
-                        {
-                            type = int.Parse(list[i].value);
-                            break;
-                        }
+                        type = int.Parse(list[i].value);
+                        break;
                     case "ID":
-                        {
-                            ID = int.Parse(list[i].value);
-                            break;
-                        }
+                        ID = int.Parse(list[i].value);
+                        break;
+                    case "priority":
+                        priority = int.Parse(list[i].value); 
+                        break;
                     case "damage":
-                        {
-                            damage = int.Parse(list[i].value);
-                            break;
-                        }
+                        damage = int.Parse(list[i].value);
+                        break;
                 }
                 //모든 데이터를 읽어왔다면
                 if (type != -1 && ID != -1 && damage != -1)
@@ -57,13 +54,13 @@ public class CopyAndTest : ScriptableObject
                     break;
             }
             //데이터가 갈 곳으로 이동
-            Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 데미지:{damage}");
+            Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 우선순위:{priority} 데미지:{damage}");
         }
         //버프 데이터를 읽는중 이라면
         else if (list[1].value == "2" || list[1].value == "3")
         {
             //데이터 저장할 변수 선언
-            int type = -1, ID = -1, AddVal = -1, MultiVal = 0, TargetStat = -1, Duration = -1;
+            int type = -1, ID = -1, priority = -1, AddVal = -1, MultiVal = 0, TargetStat = -1, Duration = -1;
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -75,6 +72,9 @@ public class CopyAndTest : ScriptableObject
                         break;
                     case "ID":
                         ID = int.Parse(list[i].value);
+                        break;
+                    case "priority":
+                        priority = int.Parse(list[i].value);
                         break;
                     case "AddVal":
                         AddVal = int.Parse(list[i].value);
@@ -95,13 +95,13 @@ public class CopyAndTest : ScriptableObject
                     break;
             }
             //데이터가 갈 곳으로 이동
-            Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 덧셈 값:{AddVal} 곱셈 값:{MultiVal} 목표 스텟 ID : {TargetStat} 지속 시간: {Duration}");
+            Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 우선순위:{priority} 덧셈 값:{AddVal} 곱셈 값:{MultiVal} 목표 스텟 ID : {TargetStat} 지속 시간: {Duration}");
         }
         //힐 데이터를 읽는 중이라면
         else if (list[1].value == "4")
         {
             //데이터 저장할 변수 선언
-            int type = -1, ID = -1, HealAmount = -1;
+            int type = -1, ID = -1, priority = -1, HealAmount = -1;
             //각 셀을 순차 접근하며 필요한 데이터를 챙겨옴
             for (int i = 0; i < list.Count; i++)
             {
@@ -109,20 +109,17 @@ public class CopyAndTest : ScriptableObject
                 switch (list[i].columnId)
                 {
                     case "type":
-                        {
                             type = int.Parse(list[i].value);
                             break;
-                        }
                     case "ID":
-                        {
                             ID = int.Parse(list[i].value);
                             break;
-                        }
+                    case "priority":
+                        priority = int.Parse(list[i].value);
+                        break;
                     case "HealAmount":
-                        {
                             HealAmount = int.Parse(list[i].value);
                             break;
-                        }
                 }
                 //모든 데이터를 읽어왔다면
                 if (type != -1 && ID != -1 && HealAmount != -1)
@@ -130,38 +127,9 @@ public class CopyAndTest : ScriptableObject
                     break;
             }
             //데이터가 갈 곳으로 이동
-            Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 치료양:{HealAmount}");
+            Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 우선순위:{priority} 치료양:{HealAmount}");
         }
-        /* 참조할 기존 코드
-        //저장할 변수 선언
-        int type = 0, ID = 0, damage = 0;
-        for (int i = 0; i < list.Count; i++)
-        {
-            //열 이름을 읽어 각각 맞는 변수에 저장
-            switch (list[i].columnId)
-            {
-                case "type":
-                    {
-                        type = int.Parse(list[i].value);
-                        break;
-                    }
-                case "ID":
-                    {
-                        ID = int.Parse(list[i].value);
-                        break;
-                    }
-                case "damage":
-                    {
-                        damage = int.Parse(list[i].value);
-                        break;
-                    }
-            }
-        }
-        //데이터가 갈 곳으로 이동
-        Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 데미지:{damage}");
-        */
     }
-
 }
 
 //inspector창 구성
@@ -199,9 +167,10 @@ public class TestEditor : Editor
     //저 멀리서 읽어온 데이터를 행(name) 단위로 끊음
     void UpdateMethodOne(GstuSpreadSheet ss)
     {
-        //inspertorc창에서 
+        //저기 멀리서 가져온 데이터(data)에서 name을 기준으로 행을 하나 하나 나눠서 UpdateStats호출(행 단위로 쪼개서 데이터 처리)
         foreach (string dataName in data.Names)
             data.UpdateStats(ss.rows[dataName], dataName);
+        //.. 개체나 에셋을 수정한 후 해당 변경 사항을 저장하기 위해 호출됩니다. ...
         EditorUtility.SetDirty(target);
     }
 

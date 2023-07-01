@@ -8,7 +8,7 @@ public class TurnMonster : MonoBehaviour
     //전투준비 == 행동 가능한지
     public bool MReady = true;
     //인덱스와 배열방식 
-    public List<double> MOriginStat = new List<double>{ 100.0, 100.0, 1.0, 1.0, 0.0, 0.0 }; //원본 스탯
+    public List<double> MOriginStat = new List<double>{ 100.0, 100.0, 1.0, 1.0, 0.0, 0.0 }; //원본 스탯, 버프 적용 후 스탯은 buffController가 가짐.
     public const int MAXHP = 0;
     public const int NOWHP = 1;
     public const int DAMAGE = 2;

@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   associatedSheet: 1mpe5Gjq7nO5HTYhLEZkTnNSrFAMFnCKSGZ0tyuJynds
   associatedWorksheet: test
-  items: []
   Names:
-  - weak
-  - strong
-  - multiWeak
-  - armorBuff
-  - littleHeal
+  - 101
+  - 201
+  - 191
+  - 12
+  - 14
