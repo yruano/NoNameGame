@@ -72,7 +72,7 @@ public class CardManager : MonoBehaviour
       CardDrag();
 
     DetectCardArea();
-    SetECardState();
+    // SetECardState();
   }
 
   void AddCard(bool isMine)
@@ -104,7 +104,7 @@ public class CardManager : MonoBehaviour
     originCardPRSs = RoundAlignment(PlayerCardLeft, PlayerCardRight, myCards.Count, 0.5f, Vector3.one * 1.5f);
 
     var targetCards = isMine ? myCards : null;
-
+    
     for (int i = 0; i < targetCards.Count; i++)
     {
       var targetCard = targetCards[i];
@@ -153,9 +153,6 @@ public class CardManager : MonoBehaviour
 
   public void CardMouseOver(Card card)
   {
-    if (eCardState == ECardState.Nothing)
-      return;
-
     selectCard = card;
     EnlargeCard(true, card);
   }
@@ -165,17 +162,11 @@ public class CardManager : MonoBehaviour
   }
   public void CardMouseDown()
   {
-    if (eCardState != ECardState.CanMouseDrag)
-      return;
-
     isMyCardDrag = true;
   }
   public void CardMouseUp()
   {
     isMyCardDrag = false;
-
-    if (eCardState != ECardState.CanMouseDrag)
-      return;
   }
   void CardDrag()
   {
@@ -195,8 +186,8 @@ public class CardManager : MonoBehaviour
   {
     if (isEnlarge)
     {
-      Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -2.8f, -10f);
-      card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 3.0f), false);
+      Vector3 enlargePos = new Vector3(card.originPRS.pos.x, -2.9f, -10f);
+      card.MoveTransform(new PRS(enlargePos, Utils.QI, Vector3.one * 2.0f), false);
     }
     else
       card.MoveTransform(card.originPRS, false);
@@ -204,15 +195,15 @@ public class CardManager : MonoBehaviour
     card.GetComponent<Order>().SetMostFrontOrder(isEnlarge);
   }
 
-  void SetECardState()
-  {
-    if (TurnManager.Inst.isLoading)
-      eCardState = ECardState.Nothing;
-    else if (!TurnManager.Inst.myTurn)
-      eCardState = ECardState.CanMouseOver;
-    else if (TurnManager.Inst.myTurn)
-      eCardState = ECardState.CanMouseDrag;
-  }
+  // void SetECardState()
+  // {
+  //   if (TurnManger.Inst.isLoading)
+  //     eCardState = ECardState.Nothing;
+  //   else if (TurnManger.Inst.myTurn)
+  //     eCardState = ECardState.CanMouseOver;
+  //   else if (TurnManger.Inst.myTurn)
+  //     eCardState = ECardState.CanMouseDrag;
+  // }
 
   #endregion
 }

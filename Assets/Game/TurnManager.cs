@@ -61,16 +61,9 @@ public class TurnManager : MonoBehaviour
   {
     isLoading = true;
 
-    yield return delay07;
-    OnAddCard?.Invoke(myTurn);
-
+    // yield return delay07;
+    // OnAddCard?.Invoke(true);
     yield return delay07;
     isLoading = false;
-  }
-
-  public void EndTurn()
-  {
-    myTurn = !myTurn;
-    StartCoroutine(StartTurnCo());
   }
 }
