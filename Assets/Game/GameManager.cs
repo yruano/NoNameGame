@@ -23,9 +23,6 @@ public class GameManager : MonoBehaviour
   {
     if (Input.GetKeyDown(KeyCode.Q))
       TurnManager.OnAddCard?.Invoke(true);
-
-    if (Input.GetKeyDown(KeyCode.W))
-      TurnManager.Inst.EndTurn();
   }
 
   public void StartGame()
