@@ -132,6 +132,8 @@ public class CopyAndTest : ScriptableObject
     }
 }
 
+//-------------------------------------
+
 //inspector창 구성
 [CustomEditor(typeof(CopyAndTest))]
 public class TestEditor : Editor
