@@ -25,19 +25,16 @@ public class CopyAndTest : ScriptableObject
         //type을 기준으로 데이터를 찾음, 나중에 순서가 확정되면 순차접근 말고 임의접근으로 바꿀 것
 
         //공격 데이터를 읽는 중 이라면 
-        if (list[1].value == "1")
+        if (int.Parse(list[0].value) % 10 == 1)
         {
             //데이터 저장할 변수 선언
-            int type = -1, ID = -1, damage = -1, priority = -1;
+            int ID = -1, damage = -1, priority = -1;
             //각 셀을 순차 접근하며 필요한 데이터를 챙겨옴
             for (int i = 0; i < list.Count; i++)
             {
                 //열 이름을 읽어 각각 맞는 변수에 저장
                 switch (list[i].columnId)
                 {
-                    case "type":
-                        type = int.Parse(list[i].value);
-                        break;
                     case "ID":
                         ID = int.Parse(list[i].value);
                         break;
@@ -49,27 +46,24 @@ public class CopyAndTest : ScriptableObject
                         break;
                 }
                 //모든 데이터를 읽어왔다면
-                if (type != -1 && ID != -1 && damage != -1)
+                if (ID != -1 && damage != -1)
                     //순차접근 종료
                     break;
             }
             //데이터가 갈 곳으로 이동
-            Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 우선순위:{priority} 데미지:{damage}");
+            Debug.Log($"{name}의 아이디:{ID} 우선순위:{priority} 데미지:{damage}");
         }
         //버프 데이터를 읽는중 이라면
-        else if (list[1].value == "2" || list[1].value == "3")
+        else if (int.Parse(list[0].value) % 10 == 2 || int.Parse(list[0].value) % 10 == 3)
         {
             //데이터 저장할 변수 선언
-            int type = -1, ID = -1, priority = -1, AddVal = -1, MultiVal = 0, TargetStat = -1, Duration = -1;
+            int ID = -1, priority = -1, AddVal = -1, MultiVal = 0, TargetStat = -1, Duration = -1;
 
             for (int i = 0; i < list.Count; i++)
             {
                 //열 이름을 읽어 각각 맞는 변수에 저장
                 switch (list[i].columnId)
                 {
-                    case "type":
-                        type = int.Parse(list[i].value);
-                        break;
                     case "ID":
                         ID = int.Parse(list[i].value);
                         break;
@@ -90,27 +84,24 @@ public class CopyAndTest : ScriptableObject
                         break;
                 }
                 //모든 데이터를 읽어왔다면
-                if (type != -1 && ID != -1 && AddVal != -1 && MultiVal != 0 && TargetStat != -1 && Duration != -1)
+                if (ID != -1 && AddVal != -1 && MultiVal != 0 && TargetStat != -1 && Duration != -1)
                     //순차접근 종료
                     break;
             }
             //데이터가 갈 곳으로 이동
-            Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 우선순위:{priority} 덧셈 값:{AddVal} 곱셈 값:{MultiVal} 목표 스텟 ID : {TargetStat} 지속 시간: {Duration}");
+            Debug.Log($"{name}의 아이디:{ID} 우선순위:{priority} 덧셈 값:{AddVal} 곱셈 값:{MultiVal} 목표 스텟 ID : {TargetStat} 지속 시간: {Duration}");
         }
         //힐 데이터를 읽는 중이라면
-        else if (list[1].value == "4")
+        else if (int.Parse(list[0].value) % 10 == 4)
         {
             //데이터 저장할 변수 선언
-            int type = -1, ID = -1, priority = -1, HealAmount = -1;
+            int ID = -1, priority = -1, HealAmount = -1;
             //각 셀을 순차 접근하며 필요한 데이터를 챙겨옴
             for (int i = 0; i < list.Count; i++)
             {
                 //열 이름을 읽어 각각 맞는 변수에 저장
                 switch (list[i].columnId)
                 {
-                    case "type":
-                            type = int.Parse(list[i].value);
-                            break;
                     case "ID":
                             ID = int.Parse(list[i].value);
                             break;
@@ -122,12 +113,12 @@ public class CopyAndTest : ScriptableObject
                             break;
                 }
                 //모든 데이터를 읽어왔다면
-                if (type != -1 && ID != -1 && HealAmount != -1)
+                if (ID != -1 && HealAmount != -1)
                     //순차접근 종료
                     break;
             }
             //데이터가 갈 곳으로 이동
-            Debug.Log($"{name}의 데이터 타입:{type} 아이디:{ID} 우선순위:{priority} 치료양:{HealAmount}");
+            Debug.Log($"{name}의 아이디:{ID} 우선순위:{priority} 치료양:{HealAmount}");
         }
     }
 }

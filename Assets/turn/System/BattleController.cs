@@ -77,7 +77,7 @@ public class BattleController : MonoBehaviour
             List<double> tmp = oneMonster.Value.MgetRandomSkill();
             //누구에게 갈건지 타입으로 확인. 짝수면 몬스터, 홀수면 플레이어
             //짝수라면
-            if (tmp[Skill.TYPE] % 2 == 0)
+            if ((tmp[Skill.ID] % 10) % 2 == 0)
                 //타입을 스킬의 대상 몬스터ID로 변경
                 tmp[0] = BMonsters.Keys.ElementAt(Random.Range(0, BMonsters.Count));
             //홀수라면
