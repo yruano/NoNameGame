@@ -274,6 +274,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 7, y: 3}
   m_EdgeRadius: 0
+--- !u!1 &327145158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 327145159}
+  m_Layer: 0
+  m_Name: otherCardSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &327145159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 327145158}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &459382096
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,8 +613,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSO: {fileID: 11400000, guid: 7d101e120b1e34044865fa045088a4bd, type: 2}
   CardPrefab: {fileID: 7145093229051571324, guid: 75de3674d99c1ce4d96729a4a8ea4ae3, type: 3}
-  myCards: []
+  selfCards: []
+  otherCards: []
   cardSpawnPoint: {fileID: 230204384}
+  otherCardSpawnPoint: {fileID: 327145159}
   PlayerCardLeft: {fileID: 8400740}
   PlayerCardRight: {fileID: 8142994}
   eCardState: 0
@@ -776,11 +809,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityPrefab: {fileID: 1526330068437805158, guid: aca7d10b19501704f8555d7402c77284, type: 3}
-  myEntities: []
+  SelfEntities: []
   otherEntities: []
-  PlayerEmptyEntity: {fileID: 1643884513}
-  PlayerEntity: {fileID: 0}
-  OtherEntity: {fileID: 0}
+  SelfEmptyEntity: {fileID: 1643884513}
+  SelfEntity: {fileID: 791766211}
+  OtherEntity: {fileID: 1292021400}
 --- !u!4 &1635222140
 Transform:
   m_ObjectHideFlags: 0
