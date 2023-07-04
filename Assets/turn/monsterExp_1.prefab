@@ -11,9 +11,6 @@ GameObject:
   - component: {fileID: 8771726092404101313}
   - component: {fileID: 8771726092404101327}
   - component: {fileID: 8771726092404101312}
-  - component: {fileID: 8771726092404101324}
-  - component: {fileID: 8771726092404101325}
-  - component: {fileID: 8771726092404101326}
   m_Layer: 0
   m_Name: monsterExp_1
   m_TagString: Untagged
@@ -57,10 +54,6 @@ MonoBehaviour:
   - 0
   - 1
   buffController: {fileID: 8771726092404101312}
-  MGotSkill:
-  - {fileID: 8771726092404101324}
-  - {fileID: 8771726092404101325}
-  - {fileID: 8771726092404101326}
   priority: 0000000005000000
 --- !u!114 &8771726092404101312
 MonoBehaviour:
@@ -77,54 +70,3 @@ MonoBehaviour:
   target: {fileID: 8771726092404101327}
   ProcessedStat: []
   DotValue: 0
---- !u!114 &8771726092404101324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8771726092404101314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fa277530bb799c429dfafe9752a04b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 0
-  Id: 0
-  priority: 0
-  SBuffAdd: 0
-  SBuffMulty: 1
-  SBuffTargetStat: 0
-  SBuffLeft: 0
---- !u!114 &8771726092404101325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8771726092404101314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a726c66a30daf284a88f46785265d617, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 0
-  Id: 0
-  priority: 0
-  SADamage: 0
---- !u!114 &8771726092404101326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8771726092404101314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33b9228c76ee2e84890bf8b4573e6b50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Type: 0
-  Id: 0
-  priority: 0
-  SADamage: 0
