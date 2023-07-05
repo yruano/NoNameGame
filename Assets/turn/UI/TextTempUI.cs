@@ -59,55 +59,55 @@ public class TextTempUI : MonoBehaviour
         {
             skillData += "monster ID: " + (int)skill[skill.Count - 1] + " \nusing: ";
             //공격
-            if ((int)skill[Skill.ID] % 10 == 1)
+            if ((int)skill[SkillData.ID] % 10 == 1)
             {
                 //데미지 출력
-                skillData += "Attack \ndamage: " + skill[SkillAttack.DAMAGE] + "\n";
+                skillData += "Attack \ndamage: " + skill[SkillData.DAMAGE] + "\n";
             }
 
             //힐
-            else if ((int)skill[Skill.ID] % 10 == 4)
+            else if ((int)skill[SkillData.ID] % 10 == 4)
             {
                 //대상, 치료량 출력
-                skillData += "heal \ntarget ID: " + skill[0] + ", amount: " + skill[SkillHeal.AMOUNT] + "\n";
+                skillData += "heal \ntarget ID: " + skill[0] + ", amount: " + skill[SkillData.HEAL_AMOUNT] + "\n";
             }
 
             //버프
-            else if ((int)skill[Skill.ID] % 10 == 2)
+            else if ((int)skill[SkillData.ID] % 10 == 2)
             {
                 //대상 객체, 대상 스텟, 연산값 덧셈, 연산값 곱셈, 지속시간 출력
                 skillData += "buff \ntarget ID: " + skill[0] + " \ntarget stat: ";
-                if (skill[SkillBuff.TARGETSTAT] == TurnMonster.MAXHP) skillData += "max hp";
-                else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.NOWHP) skillData += "current hp";
-                else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.DAMAGE) skillData += "damage";
-                else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.ARMOR) skillData += "armor";
-                else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.SPEED) skillData += "speed";
+                if (skill[SkillData.TARGET_STAT] == TurnMonster.MAXHP) skillData += "max hp";
+                else if (skill[SkillData.TARGET_STAT] == TurnMonster.NOWHP) skillData += "current hp";
+                else if (skill[SkillData.TARGET_STAT] == TurnMonster.DAMAGE) skillData += "damage";
+                else if (skill[SkillData.TARGET_STAT] == TurnMonster.ARMOR) skillData += "armor";
+                else if (skill[SkillData.TARGET_STAT] == TurnMonster.SPEED) skillData += "speed";
                 skillData += "\n applied ";
-                if (skill[SkillBuff.ADD] != 0) skillData += " + " + skill[SkillBuff.ADD];
-                if (skill[SkillBuff.ADD] != 0 && skill[SkillBuff.MULTI] != 1.0) skillData += " ,and ";
-                if (skill[SkillBuff.MULTI] != 1.0) skillData += " * " + skill[SkillBuff.ADD];
-                skillData += "\nduration turn: " + skill[SkillBuff.DURATION] + "\n";
+                if (skill[SkillData.ADD_VAL] != 0) skillData += " + " + skill[SkillData.ADD_VAL];
+                if (skill[SkillData.ADD_VAL] != 0 && skill[SkillData.MULTI_VAL] != 1.0) skillData += " ,and ";
+                if (skill[SkillData.MULTI_VAL] != 1.0) skillData += " * " + skill[SkillData.ADD_VAL];
+                skillData += "\nduration turn: " + skill[SkillData.DURATION] + "\n";
             }
 
             //디버프
-            else if ((int)skill[Skill.ID] % 10 == 3)
+            else if ((int)skill[SkillData.ID] % 10 == 3)
             {
                 //대상 객체, 대상 스텟, 연산값 덧셈, 연산값 곱셈, 지속시간 출력
                 skillData += "debuff \ntarget: player, \ntarget stat: ";
-                if (skill[SkillBuff.TARGETSTAT] == TurnMonster.MAXHP) skillData += "max hp";
-                else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.NOWHP) skillData += "current hp";
-                else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.DAMAGE) skillData += "damage";
-                else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.ARMOR) skillData += "armor";
-                else if (skill[SkillBuff.TARGETSTAT] == TurnMonster.SPEED) skillData += "speed";
+                if (skill[SkillData.TARGET_STAT] == TurnMonster.MAXHP) skillData += "max hp";
+                else if (skill[SkillData.TARGET_STAT] == TurnMonster.NOWHP) skillData += "current hp";
+                else if (skill[SkillData.TARGET_STAT] == TurnMonster.DAMAGE) skillData += "damage";
+                else if (skill[SkillData.TARGET_STAT] == TurnMonster.ARMOR) skillData += "armor";
+                else if (skill[SkillData.TARGET_STAT] == TurnMonster.SPEED) skillData += "speed";
                 skillData += "\n applied to ";
-                if (skill[SkillBuff.ADD] != 0) skillData += " + " + skill[SkillBuff.ADD];
-                if (skill[SkillBuff.ADD] != 0 && skill[SkillBuff.MULTI] != 1.0) skillData += " ,and ";
-                if (skill[SkillBuff.MULTI] != 1.0) skillData += " * " + skill[SkillBuff.ADD];
-                skillData += "\nduration turn: " + skill[SkillBuff.DURATION] + "\n";
+                if (skill[SkillData.ADD_VAL] != 0) skillData += " + " + skill[SkillData.ADD_VAL];
+                if (skill[SkillData.ADD_VAL] != 0 && skill[SkillData.MULTI_VAL] != 1.0) skillData += " ,and ";
+                if (skill[SkillData.MULTI_VAL] != 1.0) skillData += " * " + skill[SkillData.ADD_VAL];
+                skillData += "\nduration turn: " + skill[SkillData.DURATION] + "\n";
             }
 
             //우선순위 출력
-            skillData += "priority: " + skill[Skill.PRIORITY] + "\n";
+            skillData += "priority: " + skill[SkillData.PRIORITY] + "\n";
 
 
             //줄넘김
