@@ -9,15 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb5b237f08bc3d649b8e3ff829d875e0, type: 3}
-  m_Name: CopyAndTest
+  m_Script: {fileID: 11500000, guid: 52c8249e4c89e96499aa29639c66ffab, type: 3}
+  m_Name: LoadSkillData
   m_EditorClassIdentifier: 
   associatedSheet: 1mpe5Gjq7nO5HTYhLEZkTnNSrFAMFnCKSGZ0tyuJynds
   associatedWorksheet: test
-  items: []
-  Names:
-  - weak
-  - strong
-  - multiWeak
-  - armorBuff
-  - littleHeal

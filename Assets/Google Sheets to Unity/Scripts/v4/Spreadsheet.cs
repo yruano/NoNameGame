@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using GoogleSheetsToUnity.Utils;
@@ -263,7 +263,7 @@ namespace GoogleSheetsToUnity
         public SecondaryKeyDictionary<int, string, List<GSTU_Cell>> rows =
             new SecondaryKeyDictionary<int, string, List<GSTU_Cell>>();
 
-   /*     public GstuSpreadSheet(GSTU_SpreadsheetResponce data)
+   /*     public GstuSpreadSheet(GSTU_SpreadsheetResponce data) //왜 주석처리를 한거지
         {
             string startColumn = Regex.Replace(data.StartCell(), "[^a-zA-Z]", "");
             int startRow = int.Parse(Regex.Replace(data.StartCell(), "[^0-9]", ""));

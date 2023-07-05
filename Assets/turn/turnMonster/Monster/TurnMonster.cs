@@ -8,7 +8,7 @@ public class TurnMonster : MonoBehaviour
     //전투준비 == 행동 가능한지
     public bool MReady = true;
     //인덱스와 배열방식 
-    public List<double> MOriginStat = new List<double>{ 100.0, 100.0, 1.0, 1.0, 0.0, 0.0 }; //원본 스탯
+    public List<double> MOriginStat = new List<double>{ 100.0, 100.0, 1.0, 1.0, 0.0, 0.0 }; //원본 스탯, 버프 적용 후 스탯은 buffController가 가짐.
     public const int MAXHP = 0;
     public const int NOWHP = 1;
     public const int DAMAGE = 2;
@@ -28,8 +28,7 @@ public class TurnMonster : MonoBehaviour
     public BuffController buffController;
 
     [SerializeField]
-    //갖고 있는 스킬들을 저장. 
-    public List<Skill> MGotSkill = new List<Skill>();
+    public List<List<double>> Skills = new List<List<double>>();
     //우선순위 범위 [0]최소 [1]최대, 숫자가 클수록 높은 우선순위
     public int[] priority = new int[2];
 
@@ -82,9 +81,10 @@ public class TurnMonster : MonoBehaviour
     public List<double> MgetRandomSkill()
     {
         //가진 스킬중 하나를 랜덤으로 골라
-        List <double> tmpSkill = MGotSkill[Random.Range(0, MGotSkill.Count)].SFunction();
-        //갖고있는 우선순위 범위를 붙여
-        tmpSkill[Skill.PRIORITY] = Random.Range(priority[0], priority[1]);
+        int choise = Random.Range(0, Skills.Count-1);
+        //갖고있는 우선순위 범위로 보정
+        List<double> tmpSkill = new List<double>(Skills[choise]);
+        tmpSkill[SkillData.PRIORITY] += Random.Range(priority[0], priority[1]);
         //반환
         return tmpSkill;
     }

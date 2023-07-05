@@ -77,13 +77,13 @@ public class BattleController : MonoBehaviour
             List<double> tmp = oneMonster.Value.MgetRandomSkill();
             //누구에게 갈건지 타입으로 확인. 짝수면 몬스터, 홀수면 플레이어
             //짝수라면
-            if (tmp[Skill.TYPE] % 2 == 0)
-                //타입을 스킬의 대상 몬스터ID로 변경
-                tmp[0] = BMonsters.Keys.ElementAt(Random.Range(0, BMonsters.Count));
+            if ((tmp[SkillData.ID] % 10) % 2 == 0)
+                //가장 뒤에 스킬 대상 몬스터ID 붙임, 결과적으론 뒤에서 2번째에 해당 데이터가 위치하게 됨
+                tmp.Add(BMonsters.Keys.ElementAt(Random.Range(0, BMonsters.Count)));
             //홀수라면
             else
                 //타입-> 플레이어 대상으로 변경, 현재 플레이어 대상은 구상안되어있으므로 일단 -1
-                tmp[0] = -1;
+                tmp.Add(-1);
 
             //맨 뒤에 스킬 누가 썼는지 내부 ID로 기록
             tmp.Add(oneMonster.Key);
@@ -96,11 +96,11 @@ public class BattleController : MonoBehaviour
    //리스트에 있는 스킬의 결과 연산
     public void fProcessSkills()
     {
-        //           + 가장 뒤는 스킬 쓴 대상
+        //           + 가장 뒤는 스킬 쓴 몬스터
         foreach (var oneSkill in BSkillQueue)
         {
             //몬스터 대상이고
-            if (oneSkill[0] >= 0)
+            if (oneSkill[oneSkill.Count - 2] >= 0)
             {
                 //스킬을 계산하면 안될 때 조건
 
@@ -116,19 +116,21 @@ public class BattleController : MonoBehaviour
                     continue;
 
                 //공격이라면
-                if ((int)oneSkill[Skill.ID] % 10 == 1)
+                if ((int)oneSkill[SkillData.ID] % 10 == 1)
                 {
                     //다단히트가 아니라면 == 10의 자리수가 9가 아니라면
-                    if (((int)oneSkill[Skill.ID] % 100) / 10 != 9)
+                    if (((int)oneSkill[SkillData.ID] % 100) / 10 != 9)
                     {
                         //사용자가 플레이어라면
                         if ((int)oneSkill[oneSkill.Count - 1] < 0)
                             //대상 몬스터 현재 체력에 연산값 전달
-                            BMonsters[(int)oneSkill[0]].MSetDamagedHP(oneSkill[SkillAttack.DAMAGE]);
+                            BMonsters[(int)oneSkill[oneSkill.Count - 2]].MSetDamagedHP(oneSkill[SkillData.DAMAGE]);
                         //사용자가 몬스터라면
                         else
                             //대상 몬스터 현재 체력에 연산값 + 몬스터의 데미지 추가값을 더함
-                            BMonsters[(int)oneSkill[0]].MSetDamagedHP(oneSkill[SkillAttack.DAMAGE] + BMonsters[(int)oneSkill[oneSkill.Count - 1]].MProcessedStat()[TurnMonster.DAMAGE]);
+                            BMonsters[(int)oneSkill[oneSkill.Count - 2]]
+                                .MSetDamagedHP(oneSkill[SkillData.DAMAGE] + BMonsters[(int)oneSkill[oneSkill.Count - 1]]
+                                .MProcessedStat()[TurnMonster.DAMAGE]);
                     }
                     //다단히트라면
                     else
@@ -136,36 +138,36 @@ public class BattleController : MonoBehaviour
                         //사용자가 플레이어라면
                         if ((int)oneSkill[oneSkill.Count - 1] < 0)
                             //다단 히트 수 만큼
-                            for(int i = 0; i < (int)oneSkill[SkillAttackMultiHit.HITCOUNT]; i++)
+                            for(int i = 0; i < (int)oneSkill[SkillData.HIT_COUNT]; i++)
                                 //대상 몬스터 현재 체력에 연산값 전달
-                                BMonsters[(int)oneSkill[0]].MSetDamagedHP(oneSkill[SkillAttack.DAMAGE]);
+                                BMonsters[(int)oneSkill[oneSkill.Count - 2]].MSetDamagedHP(oneSkill[SkillData.DAMAGE]);
                         //사용자가 몬스터라면
                         else
                             //다단 히트 수 만큼
-                            for (int i = 0; i < (int)oneSkill[SkillAttackMultiHit.HITCOUNT]; i++)
+                            for (int i = 0; i < (int)oneSkill[SkillData.HIT_COUNT]; i++)
                                 //대상 몬스터 현재 체력에 연산값 + 몬스터의 데미지 추가값을 더함
-                                BMonsters[(int)oneSkill[0]].MSetDamagedHP(oneSkill[SkillAttack.DAMAGE] + BMonsters[(int)oneSkill[oneSkill.Count - 1]].MProcessedStat()[TurnMonster.DAMAGE]);
+                                BMonsters[(int)oneSkill[oneSkill.Count - 2]].MSetDamagedHP(oneSkill[SkillData.DAMAGE] + BMonsters[(int)oneSkill[oneSkill.Count - 1]].MProcessedStat()[TurnMonster.DAMAGE]);
                     }
 
                     //피격자가 남은 체력이 없다면
-                    if (BMonsters[(int)oneSkill[0]].MGetLeftHP() <= 0)
+                    if (BMonsters[(int)oneSkill[oneSkill.Count - 2]].MGetLeftHP() <= 0)
                     {
                         //해당 몬스터 파괴
-                        Destroy(BMonsters[(int)oneSkill[0]].gameObject);
-                        BMonsters.Remove((int)oneSkill[0]);
+                        Destroy(BMonsters[(int)oneSkill[oneSkill.Count - 2]].gameObject);
+                        BMonsters.Remove((int)oneSkill[oneSkill.Count - 2]);
                     }
                 }
 
                 //힐이라면
-                else if ((int)oneSkill[Skill.ID] % 10 == 4)
+                else if ((int)oneSkill[SkillData.ID] % 10 == 4)
                     //대상 몬스터 현재 체력에 연산값 전달
-                    BMonsters[(int)oneSkill[0]].MSetHealHP(oneSkill[SkillHeal.AMOUNT]);
+                    BMonsters[(int)oneSkill[oneSkill.Count - 2]].MSetHealHP(oneSkill[SkillData.HEAL_AMOUNT]);
 
                 //버프||디버프라면
-                else if ((int)oneSkill[Skill.ID] % 10 == 2 || (int)oneSkill[Skill.ID] % 10 == 2)
+                else if ((int)oneSkill[SkillData.ID] % 10 == 2 || (int)oneSkill[SkillData.ID] % 10 == 2)
                     //대상 몬스터 버프컨트롤러에 연산값 전달
-                    BMonsters[(int)oneSkill[0]].buffController.FAddBuff(oneSkill[SkillBuff.ADD], oneSkill[SkillBuff.MULTI],
-                                                                        oneSkill[SkillBuff.TARGETSTAT], oneSkill[SkillBuff.DURATION], oneSkill[Skill.ID]);
+                    BMonsters[(int)oneSkill[oneSkill.Count - 2]].buffController.FAddBuff(oneSkill[SkillData.ADD_VAL], oneSkill[SkillData.MULTI_VAL],
+                                                                        oneSkill[SkillData.TARGET_STAT], oneSkill[SkillData.DURATION], oneSkill[SkillData.ID]);
                 //지속 데미지라면(미구현)------
             }
             //플레이어 대상이고(미구현)------
@@ -176,7 +178,7 @@ public class BattleController : MonoBehaviour
     //우선순위 기준으로 BSkillQueue를 정렬, 내림차순 정렬
     public void SortQueue()
     {
-        BSkillQueue.Sort((x, y) => y[Skill.PRIORITY].CompareTo(x[Skill.PRIORITY])) ;
+        BSkillQueue.Sort((x, y) => y[SkillData.PRIORITY].CompareTo(x[SkillData.PRIORITY])) ;
     }
 
     //!!임시!! 플레이어의 입력을 받아와 계산, !!병합 후 삭제!!
