@@ -27,7 +27,7 @@ public class Entity : MonoBehaviour
     character.sprite = this.cardItem.sprite;
     nameTMP.text = this.cardItem.name;
     attackTMP.text = attack.ToString();
-    actionTMP.text = actionTMP.ToString();
+    actionTMP.text = action.ToString();
   }
 
   public void MoveTransform(Vector3 pos, bool useDotween, float dotweenTime = 0)

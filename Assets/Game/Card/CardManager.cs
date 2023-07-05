@@ -63,11 +63,19 @@ public class CardManager : MonoBehaviour
   {
     SetupCardItemBuffer();
     TurnManager.OnAddCard += AddCard;
+    TurnManager.OnTurnStarted += OnTurnStarted;
   }
 
   void OnDestroy()
   {
     TurnManager.OnAddCard -= AddCard;
+    TurnManager.OnTurnStarted -= OnTurnStarted;
+  }
+
+  void OnTurnStarted(bool myTurn)
+  {
+    if (myTurn)
+      selfPutCount = 0;
   }
 
   void Update()
@@ -164,7 +172,7 @@ public class CardManager : MonoBehaviour
     Card card = isMine ? selectCard : otherCards[Random.Range(0, otherCards.Count)];
     var spawnPos = isMine ? Utils.MousePos : otherCardSpawnPoint.position;
     var targetCards = isMine ? selfCards : otherCards;
-
+    
     if (EntityManager.Inst.SpawnEntity(isMine, card.carditem, spawnPos))
     {
       targetCards.Remove(card);
@@ -256,9 +264,9 @@ public class CardManager : MonoBehaviour
   {
     if (TurnManager.Inst.isLoading)
       eCardState = ECardState.Nothing;
-    else if (!TurnManager.Inst.myTurn)
+    else if (!TurnManager.Inst.myTurn || selfPutCount == 3 || EntityManager.Inst.IsFullSelfEntities)
       eCardState = ECardState.CanMouseOver;
-    else if (TurnManager.Inst.myTurn)
+    else if (TurnManager.Inst.myTurn && selfPutCount == 0)
       eCardState = ECardState.CanMouseDrag;
   }
 

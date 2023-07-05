@@ -14,7 +14,7 @@ public class EntityManager : MonoBehaviour
   [SerializeField] Entity SelfEntity;
   [SerializeField] Entity OtherEntity;
 
-  const int MAX_ENTITY_COUNT = 4;
+  const int MAX_ENTITY_COUNT = 3;
   public bool IsFullSelfEntities => SelfEntities.Count >= MAX_ENTITY_COUNT && !ExistSelfEmptyEntity;
   bool IsFullOtherEntities => otherEntities.Count >= MAX_ENTITY_COUNT;
   bool ExistSelfEmptyEntity => SelfEntities.Exists(x => x == SelfEmptyEntity);
@@ -22,17 +22,17 @@ public class EntityManager : MonoBehaviour
 
   void EntityAlignment(bool isMine)
   {
-    float targetY = isMine ? -2f : 2f;
+    float targetY = isMine ? 0f : 2f;
     var targetEntities = isMine ? SelfEntities : otherEntities;
 
     for (int i = 0; i < targetEntities.Count; i++)
     {
-      float targetX = (targetEntities.Count - 1) * -3.4f + i * 6.8f;
+      float targetX = (targetEntities.Count - 1) * -1.5f + i * 3.0f;
 
       var targetEntity = targetEntities[i];
       targetEntity.originPos = new Vector3(targetX, targetY, 0);
       targetEntity.MoveTransform(targetEntity.originPos, true, 0.5f);
-      targetEntity.GetComponent<Order>().SetOriginOrder(i);
+      targetEntity.GetComponent<Order>()?.SetOriginOrder(i);
     }
   }
 
@@ -68,7 +68,7 @@ public class EntityManager : MonoBehaviour
   {
     if (isMine)
     {
-      if (IsFullSelfEntities || ExistSelfEmptyEntity)
+      if (IsFullSelfEntities || !ExistSelfEmptyEntity)
         return false;
     }
     else
