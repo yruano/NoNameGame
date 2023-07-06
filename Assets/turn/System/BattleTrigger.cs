@@ -9,6 +9,8 @@ public class BattleTrigger : MonoBehaviour
     List<TurnMonster> monster = new List<TurnMonster>();
     [SerializeField]
     BattleController bc;
+    [SerializeField]
+    SkillData skillData;
 
     private void Awake()
     {
@@ -19,8 +21,14 @@ public class BattleTrigger : MonoBehaviour
 
         //배틀 컨트롤러 연결
         bc = GetComponent<BattleController>();
+        //스킬 데이터 담당 컴포넌트 연결
+        skillData = GetComponent<SkillData>();
+        //몬스터에 스킬 등록
+        skillData.LoadDataCall(skillData.ProcessingData);
+        monster[0].Skills.Add(skillData.Skills[2]);
+        monster[0].Skills.Add(skillData.Skills[4]);
         //몬스터들 등록
-        for(int i = 0; i < monster.Count; i++)
+        for (int i = 0; i < monster.Count; i++)
         {
             //0부터 id연결
             bc.BMonsters.Add(i, monster[i]);

@@ -8,9 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 using System.Linq;
 //구글 시트에서 모든 데이터를 가져와 double배열로 갖고 저장합니다.
 
-[CreateAssetMenu(fileName = "SkillData", menuName = "Scriptable Object/SkillData_LoadTest")]
-public class SkillData : ScriptableObject
-{
+public class SkillData : MonoBehaviour { 
     [SerializeField]
     public string associatedSheet = "1mpe5Gjq7nO5HTYhLEZkTnNSrFAMFnCKSGZ0tyuJynds";
     public string associatedWorksheet = "test";

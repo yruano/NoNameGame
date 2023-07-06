@@ -20,12 +20,13 @@ public class TextTempUI : MonoBehaviour
     private string inputText = "";
     public void Awake()
     {
-        //Text연결
-        output = GameObject.Find("Text").GetComponent<TMP_Text>();
-        battleLog = GameObject.Find("batteLog").GetComponent<TMP_Text>();
-        //inputField 연결
-        input = GameObject.Find("InputField").GetComponent<InputField>();
-        //이벤트 리스너 등록
+        ////Text연결
+        //GameObject outpu = GameObject.Find("Text");
+        //output = outpu.GetComponent<TMP_Text>();
+        //battleLog = GameObject.Find("batteLog").GetComponent<TMP_Text>();
+        ////inputField 연결
+        //input = GameObject.Find("InputField").GetComponent<InputField>();
+        ////이벤트 리스너 등록
         input.onEndEdit.AddListener(OnInputEndEdit);
         //로그 초기화
         battleLog.text = "";

@@ -6,8 +6,10 @@ using UnityEngine;
 public class TurnMonster : MonoBehaviour
 {
     //전투준비 == 행동 가능한지
+    [SerializeField]
     public bool MReady = true;
     //인덱스와 배열방식 
+    [SerializeField]
     public List<double> MOriginStat = new List<double>{ 100.0, 100.0, 1.0, 1.0, 0.0, 0.0 }; //원본 스탯, 버프 적용 후 스탯은 buffController가 가짐.
     public const int MAXHP = 0;
     public const int NOWHP = 1;
@@ -25,10 +27,12 @@ public class TurnMonster : MonoBehaviour
     //public double luck = 1.0; 확률 변동 수치(현재 해당 개념 없음)*/
 
     //버프컨트롤러 연결
+    [SerializeField]
     public BuffController buffController;
-
     [SerializeField]
     public List<List<double>> Skills = new List<List<double>>();
+    [SerializeField]
+
     //우선순위 범위 [0]최소 [1]최대, 숫자가 클수록 높은 우선순위
     public int[] priority = new int[2];
 
