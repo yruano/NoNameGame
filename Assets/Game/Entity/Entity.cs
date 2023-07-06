@@ -7,7 +7,7 @@ public class Entity : MonoBehaviour
 {
   [SerializeField] CardItem cardItem;
   [SerializeField] SpriteRenderer entity;
-  [SerializeField] SpriteRenderer character;  
+  [SerializeField] SpriteRenderer character;
   [SerializeField] TMP_Text nameTMP;
   [SerializeField] TMP_Text attackTMP;
   [SerializeField] TMP_Text actionTMP;
