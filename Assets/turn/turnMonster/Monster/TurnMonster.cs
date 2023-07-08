@@ -32,7 +32,6 @@ public class TurnMonster : MonoBehaviour
     [SerializeField]
     public List<List<double>> Skills = new List<List<double>>();
     [SerializeField]
-
     //우선순위 범위 [0]최소 [1]최대, 숫자가 클수록 높은 우선순위
     public int[] priority = new int[2];
 
