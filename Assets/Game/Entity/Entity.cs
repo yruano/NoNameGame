@@ -7,7 +7,7 @@ public class Entity : MonoBehaviour
 {
   [SerializeField] CardItem cardItem;
   [SerializeField] SpriteRenderer entity;
-  [SerializeField] SpriteRenderer character;  
+  [SerializeField] SpriteRenderer character;
   [SerializeField] TMP_Text nameTMP;
   [SerializeField] TMP_Text attackTMP;
   [SerializeField] TMP_Text actionTMP;
@@ -27,7 +27,7 @@ public class Entity : MonoBehaviour
     character.sprite = this.cardItem.sprite;
     nameTMP.text = this.cardItem.name;
     attackTMP.text = attack.ToString();
-    actionTMP.text = actionTMP.ToString();
+    actionTMP.text = action.ToString();
   }
 
   public void MoveTransform(Vector3 pos, bool useDotween, float dotweenTime = 0)

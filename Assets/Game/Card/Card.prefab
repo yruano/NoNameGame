@@ -207,7 +207,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.33, y: -0.4}
+  m_AnchoredPosition: {x: -0.33, y: -0.4}
   m_SizeDelta: {x: 0.4, y: 0.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7145093227910654257
@@ -463,7 +463,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.33, y: -0.4}
+  m_AnchoredPosition: {x: 0.33, y: -0.4}
   m_SizeDelta: {x: 0.4, y: 0.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &7145093229024681851
@@ -726,8 +726,8 @@ MonoBehaviour:
   card: {fileID: 7145093229051571320}
   character: {fileID: 7145093228904864113}
   nameTMP: {fileID: 7145093227730953364}
-  attackTMP: {fileID: 7145093229024681850}
-  actionTMP: {fileID: 7145093227910654256}
+  attackTMP: {fileID: 7145093227910654256}
+  actionTMP: {fileID: 7145093229024681850}
   carditem:
     name: 
     attack: 0

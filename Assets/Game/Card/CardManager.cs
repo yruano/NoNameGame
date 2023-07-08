@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using DG.Tweening;
 
 public class CardManager : MonoBehaviour
 {
@@ -11,17 +12,20 @@ public class CardManager : MonoBehaviour
 
   [SerializeField] ItemSO itemSO;
   [SerializeField] GameObject CardPrefab;
-  [SerializeField] List<Card> myCards;
+  [SerializeField] List<Card> selfCards;
+  [SerializeField] List<Card> otherCards;
   [SerializeField] Transform cardSpawnPoint;
+  [SerializeField] Transform otherCardSpawnPoint;
   [SerializeField] Transform PlayerCardLeft;
   [SerializeField] Transform PlayerCardRight;
   [SerializeField] ECardState eCardState;
 
   List<CardItem> itemBuffer;
   Card selectCard;
-  bool isMyCardDrag;
+  bool isSelfCardDrag;
   bool onMyCardArea;
   enum ECardState { Nothing, CanMouseOver, CanMouseDrag }
+  int selfPutCount;
 
   public CardItem PopCardItem()
   {
@@ -59,16 +63,24 @@ public class CardManager : MonoBehaviour
   {
     SetupCardItemBuffer();
     TurnManager.OnAddCard += AddCard;
+    TurnManager.OnTurnStarted += OnTurnStarted;
   }
 
   void OnDestroy()
   {
     TurnManager.OnAddCard -= AddCard;
+    TurnManager.OnTurnStarted -= OnTurnStarted;
+  }
+
+  void OnTurnStarted(bool myTurn)
+  {
+    if (myTurn)
+      selfPutCount = 0;
   }
 
   void Update()
   {
-    if (isMyCardDrag)
+    if (isSelfCardDrag)
       CardDrag();
 
     DetectCardArea();
@@ -81,7 +93,7 @@ public class CardManager : MonoBehaviour
     var card = cardObject.GetComponent<Card>();
 
     card.Setup(PopCardItem());
-    myCards.Add(card);
+    selfCards.Add(card);
 
     setOriginOrder(true);
     CardAlignment(true);
@@ -89,11 +101,11 @@ public class CardManager : MonoBehaviour
 
   void setOriginOrder(bool isMine)
   {
-    int count = isMine ? myCards.Count : 0;
+    int count = isMine ? selfCards.Count : 0;
 
     for (int i = 0; i < count; i++)
     {
-      var targetCard = myCards[i];
+      var targetCard = selfCards[i];
       targetCard?.GetComponent<Order>().SetOriginOrder(i);
     }
   }
@@ -101,9 +113,9 @@ public class CardManager : MonoBehaviour
   void CardAlignment(bool isMine)
   {
     List<PRS> originCardPRSs = new List<PRS>();
-    originCardPRSs = RoundAlignment(PlayerCardLeft, PlayerCardRight, myCards.Count, 0.5f, Vector3.one * 1.5f);
+    originCardPRSs = RoundAlignment(PlayerCardLeft, PlayerCardRight, selfCards.Count, 0.5f, Vector3.one * 1.5f);
 
-    var targetCards = isMine ? myCards : null;
+    var targetCards = isMine ? selfCards : null;
 
     for (int i = 0; i < targetCards.Count; i++)
     {
@@ -149,6 +161,41 @@ public class CardManager : MonoBehaviour
     return results;
   }
 
+  public bool TryPutCard(bool isMine)
+  {
+    if (isMine && selfPutCount >= 3)
+      return false;
+    
+    if (!isMine && otherCards.Count <= 0)
+      return false;
+
+    Card card = isMine ? selectCard : otherCards[Random.Range(0, otherCards.Count)];
+    var spawnPos = isMine ? Utils.MousePos : otherCardSpawnPoint.position;
+    var targetCards = isMine ? selfCards : otherCards;
+    
+    if (EntityManager.Inst.SpawnEntity(isMine, card.carditem, spawnPos))
+    {
+      targetCards.Remove(card);
+      card.transform.DOKill();
+      DestroyImmediate(card.gameObject);
+
+      if (isMine)
+      {
+        selectCard = null;
+        selfPutCount++;
+      }
+
+      CardAlignment(isMine);
+      return true;
+    }
+    else
+    {
+      targetCards.ForEach(x => x.GetComponent<Order>().SetMostFrontOrder(false));
+      CardAlignment(isMine);
+      return false;
+    }
+  }
+
   #region MyCard
 
   public void CardMouseOver(Card card)
@@ -168,20 +215,29 @@ public class CardManager : MonoBehaviour
     if (eCardState != ECardState.CanMouseDrag)
       return;
 
-    isMyCardDrag = true;
+    isSelfCardDrag = true;
   }
   public void CardMouseUp()
   {
-    isMyCardDrag = false;
+    isSelfCardDrag = false;
 
     if (eCardState != ECardState.CanMouseDrag)
       return;
+
+    if (onMyCardArea)
+      EntityManager.Inst.RemoveSelfEmptyEntity();
+    else
+      TryPutCard(true);
   }
   void CardDrag()
   {
+    if (eCardState != ECardState.CanMouseDrag)
+      return;
+    
     if (!onMyCardArea)
     {
       selectCard.MoveTransform(new PRS(Utils.MousePos, Utils.QI, selectCard.originPRS.scale), false);
+      EntityManager.Inst.InsertSelfEmptyEntity(Utils.MousePos.x);
     }
   }
 
@@ -208,9 +264,9 @@ public class CardManager : MonoBehaviour
   {
     if (TurnManager.Inst.isLoading)
       eCardState = ECardState.Nothing;
-    else if (!TurnManager.Inst.myTurn)
+    else if (!TurnManager.Inst.myTurn || selfPutCount == 3 || EntityManager.Inst.IsFullSelfEntities)
       eCardState = ECardState.CanMouseOver;
-    else if (TurnManager.Inst.myTurn)
+    else if (TurnManager.Inst.myTurn && selfPutCount == 0)
       eCardState = ECardState.CanMouseDrag;
   }
 
